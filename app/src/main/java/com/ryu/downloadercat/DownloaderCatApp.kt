@@ -20,6 +20,7 @@ import com.ryu.downloadercat.ui.screens.HistoryScreen
 import com.ryu.downloadercat.ui.screens.HomeScreen
 import com.ryu.downloadercat.ui.screens.PlaylistScreen
 import com.ryu.downloadercat.ui.screens.SettingsScreen
+import com.ryu.downloadercat.ui.screens.ShareSheet
 import com.ryu.downloadercat.ui.theme.AppTheme
 import com.ryu.downloadercat.ui.theme.DownloaderCatTheme
 
@@ -32,37 +33,48 @@ fun DownloaderCatApp(viewModel: AppViewModel = viewModel()) {
             viewModel.route = Route.Home
         }
 
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = colors.background,
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .windowInsetsPadding(WindowInsets.statusBars),
+        Box(Modifier.fillMaxSize()) {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = colors.background,
             ) {
-                Box(Modifier.weight(1f)) {
-                    Crossfade(
-                        targetState = viewModel.route,
-                        modifier = Modifier.fillMaxSize(),
-                        animationSpec = tween(220),
-                        label = "screen",
-                    ) { route ->
-                        when (route) {
-                            Route.Home -> HomeScreen(viewModel)
-                            Route.Format -> FormatScreen(viewModel)
-                            Route.Downloads -> DownloadsScreen(viewModel)
-                            Route.History -> HistoryScreen(viewModel)
-                            Route.Playlist -> PlaylistScreen(
-                                onBack = { viewModel.route = Route.Home },
-                            )
-                            Route.Settings -> SettingsScreen(viewModel)
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .windowInsetsPadding(WindowInsets.statusBars),
+                ) {
+                    Box(Modifier.weight(1f)) {
+                        Crossfade(
+                            targetState = viewModel.route,
+                            modifier = Modifier.fillMaxSize(),
+                            animationSpec = tween(220),
+                            label = "screen",
+                        ) { route ->
+                            when (route) {
+                                Route.Home -> HomeScreen(viewModel)
+                                Route.Format -> FormatScreen(viewModel)
+                                Route.Downloads -> DownloadsScreen(viewModel)
+                                Route.History -> HistoryScreen(viewModel)
+                                Route.Playlist -> PlaylistScreen(
+                                    onBack = { viewModel.route = Route.Home },
+                                )
+                                Route.Settings -> SettingsScreen(viewModel)
+                            }
                         }
                     }
+                    BottomBar(
+                        selectedTab = viewModel.route.tab,
+                        onSelect = viewModel::navigateToTab,
+                    )
                 }
-                BottomBar(
-                    selectedTab = viewModel.route.tab,
-                    onSelect = viewModel::navigateToTab,
+            }
+
+            if (viewModel.shareSheetVisible) {
+                ShareSheet(
+                    sharedUrl = viewModel.sharedUrl,
+                    skipPicker = viewModel.skipPicker,
+                    onDownload = viewModel::acceptSharedLink,
+                    onDismiss = viewModel::dismissShareSheet,
                 )
             }
         }

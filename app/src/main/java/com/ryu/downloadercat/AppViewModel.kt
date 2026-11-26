@@ -9,7 +9,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.ryu.downloadercat.data.AppSettings
 import com.ryu.downloadercat.data.DownloadRecord
+import com.ryu.downloadercat.data.FormatKind
 import com.ryu.downloadercat.data.HistoryRepository
+import com.ryu.downloadercat.data.MediaFormat
 import com.ryu.downloadercat.data.MediaInfo
 import com.ryu.downloadercat.data.SettingsRepository
 import com.ryu.downloadercat.download.DownloadRepository
@@ -22,6 +24,7 @@ import com.ryu.downloadercat.ui.theme.ThemeMode
 import java.util.Locale
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -34,6 +37,10 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val historyRepository = HistoryRepository(appContext)
     private val settingsRepository = SettingsRepository(appContext)
     private var settingsLoaded = false
+    private lateinit var settingsJob: Job
+    private var pendingFetchUrl: String? = null
+    private var pendingFetchFromShare = false
+    private val sharedUrlRegex = Regex("""https?://[^\s<>"']+""", RegexOption.IGNORE_CASE)
 
     var route by mutableStateOf<Route>(Route.Home)
 
@@ -46,6 +53,10 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     var subtitles by mutableStateOf(false)
     var embedThumbnail by mutableStateOf(false)
     var downloadStatus by mutableStateOf<String?>(null)
+
+    var sharedUrl by mutableStateOf<String?>(null)
+    var shareSheetVisible by mutableStateOf(false)
+    var autoDownloadAfterShare by mutableStateOf(false)
 
     var engineVersion by mutableStateOf<String?>(null)
     var engineUpdateState by mutableStateOf(EngineUpdateState.IDLE)
@@ -69,7 +80,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     )
 
     init {
-        viewModelScope.launch { loadSettings() }
+        settingsJob = viewModelScope.launch { loadSettings() }
         viewModelScope.launch {
             try {
                 DownloaderEngine.initialize(appContext)
@@ -92,15 +103,46 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun fetchInfo() {
+    fun onSharedText(text: String) {
+        sharedUrl = extractFirstUrl(text)
+        shareSheetVisible = true
+    }
+
+    fun dismissShareSheet() {
+        shareSheetVisible = false
+        sharedUrl = null
+    }
+
+    fun acceptSharedLink() {
+        val link = sharedUrl ?: return
+        shareSheetVisible = false
+        sharedUrl = null
+        url = link
+        homeStatus = null
+        fetchError = null
+        route = Route.Home
+
+        viewModelScope.launch {
+            settingsJob.join()
+            fetchInfo(fromShare = true)
+        }
+    }
+
+    fun fetchInfo(fromShare: Boolean = false) {
         val trimmed = url.trim()
-        if (isFetching || trimmed.isEmpty()) return
+        if (trimmed.isEmpty()) return
+        if (isFetching) {
+            pendingFetchUrl = trimmed
+            pendingFetchFromShare = fromShare
+            return
+        }
 
         isFetching = true
         fetchError = null
         homeStatus = null
         downloadStatus = null
         mediaInfo = null
+        autoDownloadAfterShare = false
 
         viewModelScope.launch {
             try {
@@ -110,7 +152,8 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                     fetchError = EngineError.NO_FORMATS
                 } else {
                     mediaInfo = media
-                    selectedFormatId = media.formats.first().id
+                    selectedFormatId = resolveFormatId(media.formats, defaultQuality)
+                    autoDownloadAfterShare = fromShare && skipPicker
                     route = Route.Format
                 }
             } catch (e: CancellationException) {
@@ -119,6 +162,13 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 fetchError = DownloaderEngine.mapError(throwable)
             } finally {
                 isFetching = false
+                pendingFetchUrl?.let { next ->
+                    val nextFromShare = pendingFetchFromShare
+                    pendingFetchUrl = null
+                    pendingFetchFromShare = false
+                    url = next
+                    fetchInfo(fromShare = nextFromShare)
+                }
             }
         }
     }
@@ -148,6 +198,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             ?: media.formats.firstOrNull()
             ?: return
 
+        autoDownloadAfterShare = false
         downloadStatus = null
         try {
             DownloadRepository.enqueue(
@@ -224,5 +275,42 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             // Keep the defaults if the settings file cannot be read.
         }
         settingsLoaded = true
+    }
+
+    private fun extractFirstUrl(text: String): String? {
+        val match = sharedUrlRegex.find(text)?.value ?: return null
+        return match
+            .trimEnd('.', ',', '!', '?', ';', ':', ')', ']', '}', '>', '"', '\'', '،', '؛', '؟')
+            .takeIf { it.isNotBlank() }
+    }
+
+    // Map a settings preset to the closest available format.
+    private fun resolveFormatId(formats: List<MediaFormat>, quality: String): String {
+        if (formats.isEmpty()) return "best"
+
+        val normalized = quality.trim().lowercase(Locale.US)
+        if (normalized == "mp3") {
+            return formats.firstOrNull { it.kind == FormatKind.AUDIO }?.id
+                ?: formats.first().id
+        }
+
+        val targetHeight = when (normalized) {
+            "4k" -> 2160
+            "1440p" -> 1440
+            "1080p" -> 1080
+            "720p" -> 720
+            "480p" -> 480
+            "360p" -> 360
+            else -> null
+        }
+        val video = formats.filter { it.kind != FormatKind.AUDIO }
+
+        if (targetHeight != null) {
+            video.filter { (it.height ?: 0) in 1..targetHeight }
+                .maxByOrNull { it.height ?: 0 }
+                ?.let { return it.id }
+        }
+
+        return video.firstOrNull()?.id ?: formats.first().id
     }
 }

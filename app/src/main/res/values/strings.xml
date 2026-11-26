@@ -48,6 +48,13 @@
     <string name="home_clipboard_empty">Clipboard is empty.</string>
     <string name="home_clipboard_unavailable">Clipboard access is unavailable.</string>
 
+    <!-- Share -->
+    <string name="share_sheet_title">Shared link</string>
+    <string name="share_sheet_subtitle">Download it with Downloader Cat</string>
+    <string name="share_sheet_no_link">No link found in the shared text.</string>
+    <string name="share_sheet_skip_hint">Uses your default quality and skips the format picker.</string>
+    <string name="share_sheet_cancel">Cancel</string>
+
     <!-- Format -->
     <string name="format_title">Format &amp; Quality</string>
     <string name="format_subtitle">Choose download options</string>
@@ -119,7 +126,7 @@
     <string name="settings_engine_up_to_date">Up to date (%1$s)</string>
     <string name="settings_about">About</string>
     <string name="settings_version">Version</string>
-    <string name="settings_version_value">0.1.0 (Phase 3)</string>
+    <string name="settings_version_value">0.1.0 (Phase 4)</string>
     <string name="settings_check_updates">Check for updates</string>
     <string name="settings_github">Source code / GitHub</string>
     <string name="settings_up_to_date">You are on v0.1.0.</string>

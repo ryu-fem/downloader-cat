@@ -48,6 +48,13 @@
     <string name="home_clipboard_empty">الحافظة فارغة.</string>
     <string name="home_clipboard_unavailable">الوصول إلى الحافظة غير متاح.</string>
 
+    <!-- Share -->
+    <string name="share_sheet_title">رابط مُشارَك</string>
+    <string name="share_sheet_subtitle">نزّله باستخدام Downloader Cat</string>
+    <string name="share_sheet_no_link">لم يتم العثور على رابط في النص المشارَك.</string>
+    <string name="share_sheet_skip_hint">سيُستخدم إعداد الجودة الافتراضية مع تخطي اختيار الصيغة.</string>
+    <string name="share_sheet_cancel">إلغاء</string>
+
     <!-- Format -->
     <string name="format_title">الصيغة والجودة</string>
     <string name="format_subtitle">اختر خيارات التنزيل</string>
@@ -119,7 +126,7 @@
     <string name="settings_engine_up_to_date">محدّث (%1$s)</string>
     <string name="settings_about">حول</string>
     <string name="settings_version">الإصدار</string>
-    <string name="settings_version_value">0.1.0 (المرحلة 3)</string>
+    <string name="settings_version_value">0.1.0 (المرحلة 4)</string>
     <string name="settings_check_updates">التحقق من التحديثات</string>
     <string name="settings_github">الكود المصدري / GitHub</string>
     <string name="settings_up_to_date">أنت على الإصدار v0.1.0.</string>

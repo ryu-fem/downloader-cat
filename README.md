@@ -2,7 +2,7 @@
 
 Native Android downloader for video, audio and images from YouTube, TikTok, Instagram, Reddit, Pinterest, X and any website that contains media yt-dlp can extract. DRM-protected media is never supported and never bypassed.
 
-**Status:** Phase 3 - download queue, foreground service, MediaStore output, Room history and DataStore settings.
+**Status:** Phase 4 - share target with a bottom sheet, plus download queue, foreground service, MediaStore output, Room history and DataStore settings.
 
 ## Stack
 

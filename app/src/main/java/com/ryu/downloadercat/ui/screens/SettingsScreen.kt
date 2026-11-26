@@ -62,7 +62,7 @@ fun SettingsScreen(viewModel: AppViewModel) {
             DropdownOption(ThemeMode.LIGHT, resources.getString(R.string.theme_light)),
         )
     }
-    // TODO(phase4): apply this preset when a shared link skips the picker.
+    // Shared links resolve this preset and skip the picker when enabled.
     val qualityOptions = remember(resources) {
         listOf("best", "1080p", "720p", "480p", "mp3").map { id ->
             DropdownOption(

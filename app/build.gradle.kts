@@ -26,6 +26,20 @@ android {
                 "proguard-rules.pro"
             )
         }
+
+        // Release-like build for CI performance testing. Signed with the debug
+        // key so it installs without exposing a real release keystore.
+        create("releaseLike") {
+            initWith(getByName("release"))
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("debug")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
     }
 
     compileOptions {

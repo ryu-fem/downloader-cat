@@ -88,5 +88,6 @@ Always work on the current phase only.
 ## 7. Build and CI
 
 - Workflow: `.github/workflows/android.yml`.
-- It installs Temurin 17 and Gradle 8.13, runs `gradle assembleDebug`, and uploads the artifact `downloader-cat-debug-apk`.
+- It installs Temurin 17 and Gradle 8.13, runs `gradle assembleDebug` and `gradle assembleReleaseLike`.
+- Artifacts: `downloader-cat-debug-apk`, `downloader-cat-release-like-apk` (debug-signed, R8 enabled), and `downloader-cat-release-like-mapping`.
 - Never run Gradle locally.

@@ -1,2 +1,5 @@
-# Keep rules for minify/shrink will be added in Phase 6, after verifying what
-# youtubedl-android, ffmpeg and the final dependency set require.
+# Upstream youtubedl-android / ffmpeg keep rules. Harmless before the engine
+# is added, required once those dependencies are linked. Re-verify in Phase 6
+# against the final dependency set.
+-keep class com.yausername.** { *; }
+-keep class org.apache.commons.compress.archivers.zip.** { *; }

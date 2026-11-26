@@ -35,3 +35,20 @@ jobs:
           name: downloader-cat-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+
+      - name: Build release-like APK
+        run: gradle assembleReleaseLike --stacktrace
+
+      - name: Upload release-like APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: downloader-cat-release-like-apk
+          path: app/build/outputs/apk/releaseLike/app-releaseLike.apk
+          if-no-files-found: error
+
+      - name: Upload R8 mapping
+        uses: actions/upload-artifact@v7
+        with:
+          name: downloader-cat-release-like-mapping
+          path: app/build/outputs/mapping/releaseLike/mapping.txt
+          if-no-files-found: warn

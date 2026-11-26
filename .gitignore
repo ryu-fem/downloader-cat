@@ -1,0 +1,24 @@
+# Gradle
+.gradle/
+build/
+**/build/
+.kotlin/
+
+# Local configuration (CI provides the SDK)
+local.properties
+
+# IDE
+.idea/
+*.iml
+captures/
+
+# Signing material
+*.jks
+*.keystore
+
+# Build outputs
+*.apk
+*.aab
+
+# OS
+.DS_Store

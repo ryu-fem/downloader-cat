@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Phase 0 placeholder theme. Phase 1 replaces this with the full design system. -->
+    <style name="Theme.DownloaderCat" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#000000</item>
+        <item name="android:statusBarColor">#000000</item>
+        <item name="android:navigationBarColor">#000000</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@200..700&display=swap"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/main.js" defer></script>
+    <title>Downloader Cat</title>
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <div class="brand">
+          <h1 class="app-title">Downloader Cat</h1>
+          <p class="app-subtitle" data-i18n="app.subtitle">Videos, audio and images</p>
+        </div>
+      </header>
+
+      <main class="app-main">
+        <section
+          id="screen-home"
+          class="screen is-active"
+          role="tabpanel"
+          aria-labelledby="tab-home"
+          tabindex="0"
+        >
+          <div class="hero">
+            <h2>
+              <span data-i18n="home.heroLine1">Paste link.</span>
+              <span class="hero-muted" data-i18n="home.heroLine2">Download instantly.</span>
+            </h2>
+            <p data-i18n="home.heroDesc">Grab high-resolution 4K video, lossless audio, or raw photos straight to your gallery.</p>
+          </div>
+
+          <form id="link-form" class="card link-card" novalidate>
+            <div class="card-meta-row">
+              <label for="url-input" class="field-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M10 13a5 5 0 0 0 7.1.1l3-3a5 5 0 0 0-7.1-7.1l-1.7 1.7" />
+                  <path d="M14 11a5 5 0 0 0-7.1-.1l-3 3a5 5 0 0 0 7.1 7.1l1.7-1.7" />
+                </svg>
+                <span data-i18n="home.directUrl">Direct URL</span>
+              </label>
+              <span class="auto-pill">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span data-i18n="home.autoDetect">Auto-detect</span>
+              </span>
+            </div>
+            <div class="input-wrap">
+              <input
+                id="url-input"
+                name="url"
+                type="url"
+                dir="auto"
+                inputmode="url"
+                placeholder="Paste Instagram, YouTube, TikTok link..."
+                data-i18n-placeholder="home.placeholder"
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <button id="paste-button" class="paste-inline" type="button">
+                <svg class="paste-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="8" y="3" width="8" height="4" rx="1" />
+                  <path d="M8 5H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+                </svg>
+                <span data-i18n="common.paste">Paste</span>
+              </button>
+            </div>
+            <button id="fetch-button" class="primary" type="submit">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3v12" />
+                <path d="m7 10 5 5 5-5" />
+                <path d="M4 21h16" />
+              </svg>
+              <span data-i18n="home.downloadVideo">Download video</span>
+            </button>
+
+            <p id="home-status" class="status" role="status" aria-live="polite"></p>
+
+            <div class="feature-strip">
+              <span class="feature-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                <span data-i18n="home.feat1">No watermark</span>
+              </span>
+              <span class="feature-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                <span data-i18n="home.feat2">Up to 4K 60fps</span>
+              </span>
+              <span class="feature-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                <span data-i18n="home.feat3">320kbps MP3</span>
+              </span>
+            </div>
+          </form>
+        </section>
+
+        <section
+          id="screen-format"
+          class="screen"
+          role="region"
+          aria-labelledby="format-title"
+          tabindex="0"
+          hidden
+        >
+          <div class="sub-header">
+            <button id="format-back" class="icon-button back-button" type="button" aria-label="Back to Home" data-i18n-aria="aria.backToHome">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </button>
+            <div>
+              <h2 id="format-title" data-i18n="format.title">Format &amp; Quality</h2>
+              <p data-i18n="format.subtitle">Choose download options</p>
+            </div>
+          </div>
+
+          <section id="mock-result" class="card result-card" aria-labelledby="result-title" hidden>
+            <div class="result-head">
+              <div class="thumb">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="14" rx="3" />
+                  <path d="m10 9 5 3-5 3V9Z" />
+                </svg>
+                <img id="result-thumb" class="thumb-image" alt="" hidden />
+                <span id="result-duration" class="thumb-duration">3:42</span>
+              </div>
+              <div class="result-meta">
+                <p id="result-site" class="eyebrow">YouTube</p>
+                <h3 id="result-title" dir="auto">Sample video title</h3>
+                <p id="result-channel" class="muted" dir="auto">Downloader Cat</p>
+              </div>
+            </div>
+
+            <div id="playlist-choice" class="playlist-choice" hidden>
+              <p class="muted" data-i18n="result.playlistNotice">This video is part of a playlist.</p>
+              <div class="choice-actions">
+                <button id="choice-video" class="secondary" type="button" data-i18n="result.videoOnly">This video only</button>
+                <button id="choice-playlist" class="secondary" type="button" data-i18n="result.wholePlaylist">Whole playlist</button>
+              </div>
+            </div>
+
+            <div class="formats">
+              <div class="section-head">
+                <h4 data-i18n="result.format">Format</h4>
+              </div>
+              <div id="format-list" class="format-list" role="radiogroup" aria-label="Download format" data-i18n-aria="aria.downloadFormat"></div>
+            </div>
+
+            <fieldset class="options">
+              <legend data-i18n="result.options">Options</legend>
+              <label class="check">
+                <input id="option-subtitles" type="checkbox" />
+                <span data-i18n="result.subtitles">Subtitles</span>
+              </label>
+              <label class="check">
+                <input id="option-embed" type="checkbox" />
+                <span data-i18n="result.embedThumbnail">Embed thumbnail</span>
+              </label>
+            </fieldset>
+
+            <div class="result-actions">
+              <button id="download-button" class="primary" type="button" data-i18n="common.download">Download</button>
+            </div>
+            <p id="download-status" class="status" role="status" aria-live="polite"></p>
+          </section>
+        </section>
+
+        <section
+          id="screen-downloads"
+          class="screen"
+          role="tabpanel"
+          aria-labelledby="tab-downloads"
+          tabindex="0"
+          hidden
+        >
+          <div class="screen-head">
+            <div class="screen-head-copy">
+              <h2 data-i18n="downloads.title">Downloads</h2>
+              <p class="muted" data-i18n="downloads.subtitle">Active transfers and the queue.</p>
+            </div>
+            <span id="downloads-summary" class="badge">2 active</span>
+          </div>
+
+          <div id="download-list" class="download-list"></div>
+
+          <div class="queue">
+            <div class="section-head">
+              <h3 data-i18n="downloads.queue">Queue</h3>
+              <span id="queue-count" class="muted">3 waiting</span>
+            </div>
+            <ol id="queue-list" class="queue-list"></ol>
+          </div>
+
+          <p id="downloads-status" class="status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section
+          id="screen-history"
+          class="screen"
+          role="tabpanel"
+          aria-labelledby="tab-history"
+          tabindex="0"
+          hidden
+        >
+          <div class="screen-head">
+            <div class="screen-head-copy">
+              <h2 data-i18n="history.title">History</h2>
+              <p class="muted" data-i18n="history.subtitle">Finished downloads on this device.</p>
+            </div>
+          </div>
+
+          <div class="card history-controls">
+            <label class="sr-only" for="history-search" data-i18n="history.searchLabel">Search history</label>
+            <div class="search-wrap">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+              <input
+                id="history-search"
+                type="search"
+                placeholder="Search title or site"
+                data-i18n-placeholder="history.searchPlaceholder"
+                autocomplete="off"
+              />
+            </div>
+            <div id="history-filters" class="history-filters" role="group" aria-label="Filter history" data-i18n-aria="aria.filterHistory">
+              <button class="chip is-selected" type="button" data-filter="all" aria-pressed="true" data-i18n="history.filterAll">All</button>
+              <button class="chip" type="button" data-filter="video" aria-pressed="false" data-i18n="history.filterVideo">Video</button>
+              <button class="chip" type="button" data-filter="audio" aria-pressed="false" data-i18n="history.filterAudio">Audio</button>
+              <button class="chip" type="button" data-filter="images" aria-pressed="false" data-i18n="history.filterImages">Images</button>
+            </div>
+          </div>
+
+          <div id="history-list" class="history-list"></div>
+          <p id="history-empty" class="empty-inline" hidden data-i18n="history.empty">No matching downloads.</p>
+          <p id="history-status" class="status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section
+          id="screen-playlist"
+          class="screen"
+          role="region"
+          aria-labelledby="playlist-title"
+          tabindex="0"
+          hidden
+        >
+          <div class="screen-head playlist-head">
+            <button id="playlist-back" class="icon-button back-button" type="button" aria-label="Back to Home" data-i18n-aria="aria.backToHome">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </button>
+            <div class="screen-head-copy">
+              <h2 id="playlist-title" data-i18n="playlist.title">Playlist</h2>
+              <p id="playlist-subtitle" class="muted">Mock playlist with 8 items.</p>
+            </div>
+          </div>
+
+          <div class="card playlist-controls">
+            <button id="select-all" class="secondary" type="button" data-i18n="playlist.selectAll">Select all</button>
+            <span id="playlist-summary" class="muted">0 of 8 selected</span>
+          </div>
+
+          <div id="playlist-list" class="playlist-list"></div>
+
+          <div class="selection-bar" role="region" aria-label="Playlist selection" data-i18n-aria="aria.playlistSelection">
+            <div class="selection-copy">
+              <strong id="selected-count" aria-live="polite">0 selected</strong>
+              <span id="selected-size" class="muted">0 MB</span>
+            </div>
+            <button id="playlist-download" class="primary" type="button" disabled data-i18n="common.download">Download</button>
+          </div>
+
+          <p id="playlist-status" class="status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section
+          id="screen-settings"
+          class="screen"
+          role="tabpanel"
+          aria-labelledby="tab-settings"
+          tabindex="0"
+          hidden
+        >
+          <div class="screen-head">
+            <div class="screen-head-copy">
+              <h2 data-i18n="settings.title">Settings</h2>
+              <p class="muted" data-i18n="settings.subtitle">Preferences for this device.</p>
+            </div>
+            <span class="screen-logo" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </span>
+          </div>
+
+          <div class="settings-groups">
+            <section class="card settings-card">
+              <h3 data-i18n="settings.downloads">Downloads</h3>
+
+              <div class="setting-row folder-setting">
+                <label class="setting-label" for="download-folder" data-i18n="settings.folder">Download folder</label>
+                <div class="folder-row">
+                  <input
+                    id="download-folder"
+                    class="field-input folder-input"
+                    type="text"
+                    autocomplete="off"
+                    spellcheck="false"
+                  />
+                  <button id="choose-folder" class="secondary compact" type="button" data-i18n="common.change">Change</button>
+                </div>
+              </div>
+
+              <label class="setting-row" for="default-quality">
+                <span class="setting-label" data-i18n="settings.defaultQuality">Default quality</span>
+                <select id="default-quality">
+                  <option value="best" data-i18n="quality.best">Best</option>
+                  <option value="4k">4K</option>
+                  <option value="1440p">1440p</option>
+                  <option value="1080p">1080p</option>
+                  <option value="720p">720p</option>
+                  <option value="480p">480p</option>
+                  <option value="360p">360p</option>
+                  <option value="mp3">MP3</option>
+                </select>
+              </label>
+
+              <label class="setting-row check" for="skip-format-picker-shared">
+                <span class="setting-label" data-i18n="settings.skipPicker">Skip the format picker for shared links</span>
+                <input id="skip-format-picker-shared" type="checkbox" />
+              </label>
+
+              <div class="setting-row">
+                <span class="setting-label" data-i18n="settings.concurrency">Concurrent downloads</span>
+                <div class="stepper" role="group" aria-label="Concurrent downloads" data-i18n-aria="aria.concurrency">
+                  <button id="concurrency-down" type="button" aria-label="Decrease concurrent downloads" data-i18n-aria="aria.concurrencyDown">−</button>
+                  <span id="concurrency-value" aria-live="polite">2</span>
+                  <button id="concurrency-up" type="button" aria-label="Increase concurrent downloads" data-i18n-aria="aria.concurrencyUp">+</button>
+                </div>
+              </div>
+
+              <label class="setting-row" for="speed-limit">
+                <span class="setting-label" data-i18n="settings.speedLimit">Speed limit</span>
+                <span class="input-suffix">
+                  <input
+                    id="speed-limit"
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    placeholder="Unlimited"
+                    data-i18n-placeholder="settings.unlimited"
+                    inputmode="decimal"
+                  />
+                  <span>MB/s</span>
+                </span>
+              </label>
+            </section>
+
+            <section class="card settings-card">
+              <h3 data-i18n="settings.appearance">Appearance</h3>
+
+              <label class="setting-row" for="theme-select">
+                <span class="setting-label" data-i18n="settings.theme">Theme</span>
+                <select id="theme-select">
+                  <option value="system" data-i18n="theme.system">System</option>
+                  <option value="oled" data-i18n="theme.oled" selected>OLED</option>
+                  <option value="yaru" data-i18n="theme.yaru">Yaru</option>
+                  <option value="light" data-i18n="theme.light">Light</option>
+                </select>
+              </label>
+
+              <div class="setting-row">
+                <span class="setting-label" data-i18n="settings.language">Language</span>
+                <button type="button" class="cap" id="lang-cap-switch" data-lang-cap aria-label="Toggle language" data-i18n-aria="aria.toggleLanguage">
+                  <span class="thumb" aria-hidden="true"></span>
+                  <span class="opt" data-cap-lang="en">English</span>
+                  <span class="opt" data-cap-lang="ar">العربية</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="card settings-card">
+              <h3 data-i18n="settings.network">Network</h3>
+
+              <label class="setting-row" for="proxy-input">
+                <span class="setting-label" data-i18n="settings.proxy">Proxy</span>
+                <input id="proxy-input" type="text" placeholder="http://host:port" autocomplete="off" spellcheck="false" />
+              </label>
+
+              <label class="setting-row" for="cookies-select">
+                <span class="setting-label" data-i18n="settings.cookies">Cookies from browser</span>
+                <select id="cookies-select">
+                  <option value="none" data-i18n="cookies.none">None</option>
+                  <option value="chrome">Chrome</option>
+                  <option value="firefox">Firefox</option>
+                  <option value="chromium">Chromium</option>
+                  <option value="edge">Edge</option>
+                </select>
+              </label>
+            </section>
+
+            <section class="card settings-card">
+              <h3 data-i18n="settings.engine">Engine</h3>
+
+              <div class="setting-row">
+                <div class="setting-copy">
+                  <span class="setting-label">yt-dlp</span>
+                  <span id="engine-version" class="setting-value" data-i18n="settings.engineNotChecked">Not checked</span>
+                </div>
+                <button id="update-engine" class="secondary compact" type="button" data-i18n="settings.updateEngine">Update engine</button>
+              </div>
+            </section>
+
+            <section class="card settings-card">
+              <h3 data-i18n="settings.about">About</h3>
+
+              <div class="setting-row">
+                <span class="setting-label" data-i18n="settings.version">Version</span>
+                <span class="setting-value" data-i18n="settings.versionValue">1.4.2 (Stable)</span>
+              </div>
+
+              <a id="check-updates-link" class="setting-row about-link" href="#updates">
+                <span class="setting-label" data-i18n="settings.checkUpdates">Check for updates</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m9 5 7 7-7 7" />
+                </svg>
+              </a>
+
+              <a id="github-link" class="setting-row about-link" href="#github">
+                <span class="setting-label" data-i18n="settings.github">Source code / GitHub</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </section>
+          </div>
+
+          <p id="settings-status" class="status" role="status" aria-live="polite"></p>
+        </section>
+      </main>
+
+      <nav class="tab-bar" role="tablist" aria-label="Main navigation" data-i18n-aria="aria.mainNav">
+        <button
+          id="tab-home"
+          class="tab is-active"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          aria-controls="screen-home"
+          aria-current="page"
+          data-screen="screen-home"
+        >
+          <span class="tab-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m3 10.5 9-7 9 7" />
+              <path d="M5.5 9.5V20h13V9.5" />
+              <path d="M9.5 20v-6h5v6" />
+            </svg>
+          </span>
+          <span data-i18n="tabs.home">Home</span>
+        </button>
+        <button
+          id="tab-downloads"
+          class="tab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="screen-downloads"
+          data-screen="screen-downloads"
+        >
+          <span class="tab-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3v12" />
+              <path d="m7 10 5 5 5-5" />
+              <path d="M4 21h16" />
+            </svg>
+          </span>
+          <span data-i18n="tabs.downloads">Downloads</span>
+        </button>
+        <button
+          id="tab-history"
+          class="tab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="screen-history"
+          data-screen="screen-history"
+        >
+          <span class="tab-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 2" />
+            </svg>
+          </span>
+          <span data-i18n="tabs.history">History</span>
+        </button>
+        <button
+          id="tab-settings"
+          class="tab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="screen-settings"
+          data-screen="screen-settings"
+        >
+          <span class="tab-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </span>
+          <span data-i18n="tabs.settings">Settings</span>
+        </button>
+      </nav>
+
+      <div class="share-sheet-overlay" id="share-sheet-overlay" hidden>
+        <div class="share-sheet-backdrop" id="share-sheet-backdrop"></div>
+        <div class="share-sheet" role="dialog" aria-modal="true" aria-label="Share download options" data-i18n-aria="aria.shareOptions">
+          <div class="sheet-handle"></div>
+          <div class="sheet-media">
+            <div class="thumb">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="3" />
+                <path d="m10 9 5 3-5 3V9Z" />
+              </svg>
+              <span id="sheet-duration" class="thumb-duration">0:45</span>
+            </div>
+            <div class="result-meta">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                <span id="sheet-site" class="eyebrow">Instagram • @nature.traveler</span>
+                <span class="auto-pill" style="padding:2px 8px;font-size:10px;"><span class="status-dot"></span><span data-i18n="sheet.ready">Ready</span></span>
+              </div>
+              <h3 id="sheet-title" dir="auto">Sunset over Amalfi Coast • Golden hour magic</h3>
+              <p id="sheet-reel" class="muted">Reel • 1080×1920</p>
+            </div>
+          </div>
+
+          <div class="sheet-option-card">
+            <div class="sheet-option-row">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="sheet-icon-box">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="2" y="6" width="14" height="12" rx="2" />
+                    <path d="m16 10 6-3v10l-6-3Z" />
+                  </svg>
+                </div>
+                <div>
+                  <strong style="font-size:13px;" data-i18n="sheet.videos">videos</strong>
+                  <p class="muted" data-i18n="sheet.videoSub">MP4 • Video with Audio</p>
+                </div>
+              </div>
+              <strong style="font-size:12px;" id="sheet-size">42.5 MB</strong>
+            </div>
+            <div class="sheet-quality-row">
+              <span class="muted" data-i18n="sheet.quality">Quality:</span>
+              <div class="sheet-quality-pills" id="sheet-quality-pills">
+                <button type="button" class="quality-pill is-selected" data-q="1080p" data-s="42.5 MB">1080p</button>
+                <button type="button" class="quality-pill" data-q="720p" data-s="24.1 MB">720p</button>
+                <button type="button" class="quality-pill" data-q="480p" data-s="12.8 MB">480p</button>
+                <button type="button" class="quality-pill" data-q="360p" data-s="7.4 MB">360p</button>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="sheet-audio-card" id="sheet-mp3-btn">
+            <div style="display:flex;align-items:center;gap:10px;text-align:start;">
+              <div class="sheet-icon-box">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M9 18V6l10-2v12" />
+                  <circle cx="6" cy="18" r="3" />
+                  <circle cx="16" cy="16" r="3" />
+                </svg>
+              </div>
+              <div>
+                <strong style="font-size:13px;">mp3</strong>
+                <p class="muted" data-i18n="sheet.audioSub">Audio only • 320 kbps</p>
+              </div>
+            </div>
+            <span class="muted" style="font-weight:700;">3.2 MB</span>
+          </button>
+
+          <button type="button" class="primary" id="sheet-download-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+              <path d="M12 4v12" />
+              <path d="m7 11 5 5 5-5" />
+              <path d="M5 20h14" />
+            </svg>
+            <span id="sheet-dl-text">Download videos (1080p • 42.5 MB)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

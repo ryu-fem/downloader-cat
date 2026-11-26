@@ -3,3 +3,7 @@
 # against the final dependency set.
 -keep class com.yausername.** { *; }
 -keep class org.apache.commons.compress.archivers.zip.** { *; }
+
+# yt-dlp JSON is mapped through Jackson reflection.
+-keepattributes *Annotation*, Signature
+-keep class com.fasterxml.jackson.** { *; }

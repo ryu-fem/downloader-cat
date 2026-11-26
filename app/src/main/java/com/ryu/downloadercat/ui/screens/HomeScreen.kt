@@ -41,6 +41,7 @@ import com.ryu.downloadercat.ui.components.PrimaryButton
 import com.ryu.downloadercat.ui.components.SecondaryButton
 import com.ryu.downloadercat.ui.components.StatusDot
 import com.ryu.downloadercat.ui.components.Wordmark
+import com.ryu.downloadercat.ui.components.localizedMessage
 import com.ryu.downloadercat.ui.theme.AppTheme
 
 @Composable
@@ -51,7 +52,13 @@ fun HomeScreen(viewModel: AppViewModel) {
     val pasteFirst = stringResource(R.string.home_paste_first)
     val httpOnly = stringResource(R.string.home_http_only)
     val clipboardEmpty = stringResource(R.string.home_clipboard_empty)
-    val mockNotice = stringResource(R.string.home_mock_notice)
+    val fetchLabel = stringResource(
+        if (viewModel.isFetching) R.string.home_fetching else R.string.home_download_video,
+    )
+    val fetchErrorText = when (val error = viewModel.fetchError) {
+        null -> null
+        else -> error.localizedMessage()
+    }
 
     Column(
         modifier = Modifier
@@ -107,6 +114,7 @@ fun HomeScreen(viewModel: AppViewModel) {
                 onValueChange = {
                     viewModel.url = it
                     viewModel.homeStatus = null
+                    viewModel.fetchError = null
                 },
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = stringResource(R.string.home_placeholder),
@@ -129,6 +137,7 @@ fun HomeScreen(viewModel: AppViewModel) {
                             } else {
                                 viewModel.url = text
                                 viewModel.homeStatus = null
+                                viewModel.fetchError = null
                             }
                         },
                     )
@@ -136,24 +145,21 @@ fun HomeScreen(viewModel: AppViewModel) {
             )
             Spacer(Modifier.height(10.dp))
             PrimaryButton(
-                text = stringResource(R.string.home_download_video),
+                text = fetchLabel,
                 onClick = {
                     val trimmed = viewModel.url.trim()
+                    viewModel.fetchError = null
                     when {
                         trimmed.isEmpty() -> viewModel.homeStatus = pasteFirst
                         !(trimmed.startsWith("http://") || trimmed.startsWith("https://")) ->
                             viewModel.homeStatus = httpOnly
-                        // TODO(phase2): replace with the real engine.
-                        else -> {
-                            viewModel.homeStatus = mockNotice
-                            viewModel.downloadStatus = null
-                            viewModel.route = Route.Format
-                        }
+                        else -> viewModel.fetchInfo()
                     }
                 },
+                enabled = !viewModel.isFetching,
                 modifier = Modifier.fillMaxWidth(),
             )
-            viewModel.homeStatus?.let { status ->
+            (fetchErrorText ?: viewModel.homeStatus)?.let { status ->
                 Spacer(Modifier.height(8.dp))
                 Text(
                     text = status,

@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import com.ryu.downloadercat.AppViewModel
 import com.ryu.downloadercat.R
-import com.ryu.downloadercat.data.MockData
+import com.ryu.downloadercat.engine.EngineUpdateState
 import com.ryu.downloadercat.ui.components.AppDropdown
 import com.ryu.downloadercat.ui.components.AppStepper
 import com.ryu.downloadercat.ui.components.AppSwitchVisual
@@ -42,6 +42,7 @@ import com.ryu.downloadercat.ui.components.ScreenHeader
 import com.ryu.downloadercat.ui.components.SettingsGroup
 import com.ryu.downloadercat.ui.components.SettingsLogo
 import com.ryu.downloadercat.ui.components.SettingRowContainer
+import com.ryu.downloadercat.ui.components.localizedMessage
 import com.ryu.downloadercat.ui.components.mirrorForRtl
 import com.ryu.downloadercat.ui.components.qualityLabelRes
 import com.ryu.downloadercat.ui.theme.AppTheme
@@ -60,19 +61,37 @@ fun SettingsScreen(viewModel: AppViewModel) {
             DropdownOption(ThemeMode.LIGHT, resources.getString(R.string.theme_light)),
         )
     }
+    // TODO(phase3): apply the selected preset when starting downloads.
     val qualityOptions = remember(resources) {
-        MockData.result.formats.map { format ->
+        listOf("best", "1080p", "720p", "480p", "mp3").map { id ->
             DropdownOption(
-                value = format.id,
-                label = qualityLabelRes(format.id)?.let { resources.getString(it) } ?: format.id,
+                value = id,
+                label = qualityLabelRes(id)?.let { resources.getString(it) } ?: id,
             )
         }
     }
 
     val folderSoon = stringResource(R.string.settings_folder_soon)
-    val engineSoon = stringResource(R.string.settings_engine_soon)
     val upToDate = stringResource(R.string.settings_up_to_date)
     val repoSoon = stringResource(R.string.settings_repo_soon)
+
+    val version = viewModel.engineVersion
+    val engineError = viewModel.engineError
+    val engineSubtitle = when (viewModel.engineUpdateState) {
+        EngineUpdateState.UPDATING -> stringResource(R.string.settings_engine_updating)
+        EngineUpdateState.UPDATED -> stringResource(R.string.settings_engine_updated, version.orEmpty())
+        EngineUpdateState.UP_TO_DATE -> stringResource(R.string.settings_engine_up_to_date, version.orEmpty())
+        EngineUpdateState.FAILED -> if (engineError != null) {
+            engineError.localizedMessage()
+        } else {
+            stringResource(R.string.error_unknown)
+        }
+        EngineUpdateState.IDLE -> if (version.isNullOrBlank()) {
+            stringResource(R.string.settings_engine_not_checked)
+        } else {
+            stringResource(R.string.settings_engine_version, version)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -277,7 +296,7 @@ fun SettingsScreen(viewModel: AppViewModel) {
         }
 
         SettingsGroup(stringResource(R.string.settings_engine)) {
-            SettingRowContainer(onClick = { viewModel.settingsStatus = engineSoon }) {
+            SettingRowContainer(onClick = { viewModel.updateEngine() }) {
                 Column(Modifier.weight(1f)) {
                     Text(
                         text = stringResource(R.string.settings_update_engine),
@@ -287,7 +306,7 @@ fun SettingsScreen(viewModel: AppViewModel) {
                     )
                     Spacer(Modifier.height(2.dp))
                     Text(
-                        text = stringResource(R.string.settings_engine_not_checked),
+                        text = engineSubtitle,
                         color = colors.muted,
                         style = MaterialTheme.typography.bodySmall,
                     )

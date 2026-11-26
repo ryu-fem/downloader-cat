@@ -10,6 +10,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.ryu.downloadercat.R
+import com.ryu.downloadercat.data.FormatKind
+import com.ryu.downloadercat.data.MediaFormat
 import java.util.Locale
 
 fun formatSizeMb(value: Double): String =
@@ -20,10 +22,56 @@ fun formatSizeMb(value: Double): String =
     }
 
 @Composable
-fun sizeText(sizeMb: Double): String =
-    stringResource(R.string.size_mb, formatSizeMb(sizeMb))
+fun sizeText(sizeMb: Double?): String =
+    if (sizeMb == null) {
+        stringResource(R.string.size_unknown)
+    } else {
+        stringResource(R.string.size_mb, formatSizeMb(sizeMb))
+    }
 
-fun qualityLabelRes(id: String): Int? = when (id.lowercase()) {
+@Composable
+fun durationText(seconds: Int): String {
+    if (seconds <= 0) return stringResource(R.string.duration_unknown)
+
+    val hours = seconds / 3600
+    val minutes = (seconds % 3600) / 60
+    val remainingSeconds = seconds % 60
+    return if (hours > 0) {
+        String.format(Locale.US, "%d:%02d:%02d", hours, minutes, remainingSeconds)
+    } else {
+        String.format(Locale.US, "%d:%02d", minutes, remainingSeconds)
+    }
+}
+
+@Composable
+fun formatLabel(format: MediaFormat): String {
+    val ext = format.ext.uppercase(Locale.US)
+    val height = format.height
+    val note = format.note
+    val base = when {
+        format.kind == FormatKind.AUDIO -> if (ext.isBlank()) {
+            stringResource(R.string.format_audio_label)
+        } else {
+            "${stringResource(R.string.format_audio_label)} · $ext"
+        }
+        height != null -> buildString {
+            append(height)
+            append('p')
+            if ((format.fps ?: 0) > 30) append(format.fps)
+        }
+        !note.isNullOrBlank() -> note
+        ext.isNotBlank() -> ext
+        else -> stringResource(R.string.size_unknown)
+    }
+
+    return if (format.kind == FormatKind.VIDEO_ONLY) {
+        "$base · ${stringResource(R.string.format_video_only_label)}"
+    } else {
+        base
+    }
+}
+
+fun qualityLabelRes(id: String): Int? = when (id.lowercase(Locale.US)) {
     "best" -> R.string.quality_best
     "4k" -> R.string.quality_4k
     "1440p" -> R.string.quality_1440p
@@ -35,10 +83,6 @@ fun qualityLabelRes(id: String): Int? = when (id.lowercase()) {
     "images" -> R.string.quality_images
     else -> null
 }
-
-@Composable
-fun qualityLabel(id: String): String =
-    qualityLabelRes(id)?.let { stringResource(it) } ?: id
 
 fun groupedShape(
     index: Int,

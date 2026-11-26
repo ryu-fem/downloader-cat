@@ -27,6 +27,8 @@
     <string name="size_mb">%1$s MB</string>
     <string name="speed_mb_s">%1$s MB/s</string>
     <string name="unit_mb_s">MB/s</string>
+    <string name="size_unknown">—</string>
+    <string name="duration_unknown">—</string>
 
     <!-- Home -->
     <string name="home_hero_line1">Paste link.</string>
@@ -35,6 +37,7 @@
     <string name="home_direct_url">Direct URL</string>
     <string name="home_placeholder">Paste Instagram, YouTube, TikTok link...</string>
     <string name="home_download_video">Download video</string>
+    <string name="home_fetching">Fetching media info...</string>
     <string name="home_auto_detect">Auto-detect</string>
     <string name="home_feat1">No watermark</string>
     <string name="home_feat2">Up to 4K 60fps</string>
@@ -44,7 +47,6 @@
     <string name="home_http_only">Only http:// and https:// links are supported.</string>
     <string name="home_clipboard_empty">Clipboard is empty.</string>
     <string name="home_clipboard_unavailable">Clipboard access is unavailable.</string>
-    <string name="home_mock_notice">Showing mock data.</string>
 
     <!-- Format -->
     <string name="format_title">Format &amp; Quality</string>
@@ -53,9 +55,10 @@
     <string name="format_options">Options</string>
     <string name="format_subtitles">Subtitles</string>
     <string name="format_embed_thumbnail">Embed thumbnail</string>
-    <string name="format_playlist_notice">This video is part of a playlist.</string>
-    <string name="format_video_only">This video only</string>
-    <string name="format_whole_playlist">Whole playlist</string>
+    <string name="format_no_media">Fetch a link first.</string>
+    <string name="format_no_formats">No downloadable formats found.</string>
+    <string name="format_audio_label">Audio</string>
+    <string name="format_video_only_label">Video only</string>
 
     <!-- Downloads -->
     <string name="downloads_title">Downloads</string>
@@ -94,10 +97,13 @@
     <string name="settings_engine">Engine</string>
     <string name="settings_engine_not_checked">Not checked</string>
     <string name="settings_update_engine">Update engine</string>
-    <string name="settings_engine_soon">Engine updates will be added with the download engine.</string>
+    <string name="settings_engine_version">yt-dlp %1$s</string>
+    <string name="settings_engine_updating">Updating yt-dlp...</string>
+    <string name="settings_engine_updated">Updated to %1$s</string>
+    <string name="settings_engine_up_to_date">Up to date (%1$s)</string>
     <string name="settings_about">About</string>
     <string name="settings_version">Version</string>
-    <string name="settings_version_value">0.1.0 (Phase 1)</string>
+    <string name="settings_version_value">0.1.0 (Phase 2)</string>
     <string name="settings_check_updates">Check for updates</string>
     <string name="settings_github">Source code / GitHub</string>
     <string name="settings_up_to_date">You are on v0.1.0.</string>
@@ -121,6 +127,19 @@
     <string name="quality_360p">360p</string>
     <string name="quality_mp3">MP3</string>
     <string name="quality_images">Images</string>
+
+    <!-- Errors -->
+    <string name="error_invalid_url">Enter a valid http(s) link.</string>
+    <string name="error_unsupported_url">This site is not supported.</string>
+    <string name="error_network">Network error. Check your connection and try again.</string>
+    <string name="error_login_required">This media needs a sign-in or is private.</string>
+    <string name="error_unavailable">This media is unavailable.</string>
+    <string name="error_drm">DRM-protected media is not supported.</string>
+    <string name="error_extractor">Could not extract media from this link.</string>
+    <string name="error_parse">Could not read the media information.</string>
+    <string name="error_engine_init">Download engine could not start.</string>
+    <string name="error_canceled">Fetch canceled.</string>
+    <string name="error_unknown">Something went wrong. Try again.</string>
 
     <!-- Accessibility -->
     <string name="aria_back_to_home">Back to Home</string>

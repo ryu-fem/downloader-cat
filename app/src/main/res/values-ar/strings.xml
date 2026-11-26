@@ -27,6 +27,8 @@
     <string name="size_mb">%1$s MB</string>
     <string name="speed_mb_s">%1$s MB/s</string>
     <string name="unit_mb_s">MB/s</string>
+    <string name="size_unknown">—</string>
+    <string name="duration_unknown">—</string>
 
     <!-- Home -->
     <string name="home_hero_line1">الصق الرابط.</string>
@@ -35,6 +37,7 @@
     <string name="home_direct_url">رابط مباشر</string>
     <string name="home_placeholder">الصق رابط إنستغرام أو يوتيوب أو تيك توك...</string>
     <string name="home_download_video">تنزيل الفيديو</string>
+    <string name="home_fetching">جارٍ جلب معلومات الوسائط...</string>
     <string name="home_auto_detect">كشف تلقائي</string>
     <string name="home_feat1">بدون علامة مائية</string>
     <string name="home_feat2">حتى 4K 60fps</string>
@@ -44,7 +47,6 @@
     <string name="home_http_only">تُدعم روابط http:// و https:// فقط.</string>
     <string name="home_clipboard_empty">الحافظة فارغة.</string>
     <string name="home_clipboard_unavailable">الوصول إلى الحافظة غير متاح.</string>
-    <string name="home_mock_notice">يتم عرض بيانات تجريبية.</string>
 
     <!-- Format -->
     <string name="format_title">الصيغة والجودة</string>
@@ -53,9 +55,10 @@
     <string name="format_options">الخيارات</string>
     <string name="format_subtitles">الترجمة</string>
     <string name="format_embed_thumbnail">تضمين الصورة المصغرة</string>
-    <string name="format_playlist_notice">هذا الفيديو جزء من قائمة تشغيل.</string>
-    <string name="format_video_only">هذا الفيديو فقط</string>
-    <string name="format_whole_playlist">قائمة التشغيل كاملة</string>
+    <string name="format_no_media">اجلب رابطًا أولًا.</string>
+    <string name="format_no_formats">لم يتم العثور على صيغ قابلة للتنزيل.</string>
+    <string name="format_audio_label">صوت</string>
+    <string name="format_video_only_label">فيديو فقط</string>
 
     <!-- Downloads -->
     <string name="downloads_title">التنزيلات</string>
@@ -94,10 +97,13 @@
     <string name="settings_engine">المحرّك</string>
     <string name="settings_engine_not_checked">لم يتم الفحص</string>
     <string name="settings_update_engine">تحديث المحرّك</string>
-    <string name="settings_engine_soon">سيتم إضافة تحديثات المحرّك مع محرّك التنزيل.</string>
+    <string name="settings_engine_version">yt-dlp %1$s</string>
+    <string name="settings_engine_updating">جارٍ تحديث yt-dlp...</string>
+    <string name="settings_engine_updated">تم التحديث إلى %1$s</string>
+    <string name="settings_engine_up_to_date">محدّث (%1$s)</string>
     <string name="settings_about">حول</string>
     <string name="settings_version">الإصدار</string>
-    <string name="settings_version_value">0.1.0 (المرحلة 1)</string>
+    <string name="settings_version_value">0.1.0 (المرحلة 2)</string>
     <string name="settings_check_updates">التحقق من التحديثات</string>
     <string name="settings_github">الكود المصدري / GitHub</string>
     <string name="settings_up_to_date">أنت على الإصدار v0.1.0.</string>
@@ -121,6 +127,19 @@
     <string name="quality_360p">360p</string>
     <string name="quality_mp3">MP3</string>
     <string name="quality_images">صور</string>
+
+    <!-- Errors -->
+    <string name="error_invalid_url">أدخل رابط http(s) صالحًا.</string>
+    <string name="error_unsupported_url">هذا الموقع غير مدعوم.</string>
+    <string name="error_network">خطأ في الشبكة. تحقق من اتصالك وحاول مجددًا.</string>
+    <string name="error_login_required">هذه الوسائط تتطلب تسجيل الدخول أو أنها خاصة.</string>
+    <string name="error_unavailable">هذه الوسائط غير متاحة.</string>
+    <string name="error_drm">الوسائط المحمية بـ DRM غير مدعومة.</string>
+    <string name="error_extractor">تعذر استخراج الوسائط من هذا الرابط.</string>
+    <string name="error_parse">تعذر قراءة معلومات الوسائط.</string>
+    <string name="error_engine_init">تعذر بدء محرك التنزيل.</string>
+    <string name="error_canceled">تم إلغاء الجلب.</string>
+    <string name="error_unknown">حدث خطأ ما. حاول مجددًا.</string>
 
     <!-- Accessibility -->
     <string name="aria_back_to_home">العودة إلى الرئيسية</string>

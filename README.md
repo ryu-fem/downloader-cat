@@ -2,7 +2,7 @@
 
 Native Android downloader for video, audio and images from YouTube, TikTok, Instagram, Reddit, Pinterest, X and any website that contains media yt-dlp can extract. DRM-protected media is never supported and never bypassed.
 
-**Status:** Phase 0 - Android project skeleton and GitHub Actions build.
+**Status:** Phase 2 - yt-dlp engine integration.
 
 ## Stack
 
@@ -25,8 +25,10 @@ This repository is built only on GitHub Actions. The development laptop is inten
 Workflow: `.github/workflows/android.yml`
 
 - installs Temurin JDK 17 and Gradle 8.13,
-- runs `gradle assembleDebug`,
-- uploads the artifact `downloader-cat-debug-apk` (contains `app-debug.apk`).
+- runs `gradle assembleDebug` and `gradle assembleReleaseLike`,
+- uploads `downloader-cat-debug-apk` (`app-debug.apk`),
+- uploads `downloader-cat-release-like-apk` (`app-releaseLike.apk`, debug-signed, R8 enabled),
+- uploads `downloader-cat-release-like-mapping` (`mapping.txt`).
 
 ## Push to GitHub (HTTPS)
 

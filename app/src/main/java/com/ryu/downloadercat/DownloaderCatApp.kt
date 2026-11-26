@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ryu.downloadercat.ui.components.BottomBar
@@ -23,19 +22,11 @@ import com.ryu.downloadercat.ui.screens.PlaylistScreen
 import com.ryu.downloadercat.ui.screens.SettingsScreen
 import com.ryu.downloadercat.ui.theme.AppTheme
 import com.ryu.downloadercat.ui.theme.DownloaderCatTheme
-import kotlinx.coroutines.delay
 
 @Composable
 fun DownloaderCatApp(viewModel: AppViewModel = viewModel()) {
     DownloaderCatTheme(themeMode = viewModel.themeMode) {
         val colors = AppTheme.colors
-
-        LaunchedEffect(Unit) {
-            while (true) {
-                delay(900)
-                viewModel.tickDownloads()
-            }
-        }
 
         BackHandler(enabled = viewModel.route != Route.Home) {
             viewModel.route = Route.Home
@@ -60,9 +51,11 @@ fun DownloaderCatApp(viewModel: AppViewModel = viewModel()) {
                         when (route) {
                             Route.Home -> HomeScreen(viewModel)
                             Route.Format -> FormatScreen(viewModel)
-                            Route.Downloads -> DownloadsScreen(viewModel)
-                            Route.History -> HistoryScreen(viewModel)
-                            Route.Playlist -> PlaylistScreen(viewModel)
+                            Route.Downloads -> DownloadsScreen()
+                            Route.History -> HistoryScreen()
+                            Route.Playlist -> PlaylistScreen(
+                                onBack = { viewModel.route = Route.Home },
+                            )
                             Route.Settings -> SettingsScreen(viewModel)
                         }
                     }

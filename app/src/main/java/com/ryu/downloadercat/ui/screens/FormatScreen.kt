@@ -54,6 +54,8 @@ import com.ryu.downloadercat.ui.theme.AppTheme
 @Composable
 fun FormatScreen(viewModel: AppViewModel) {
     val colors = AppTheme.colors
+    val notConnected = stringResource(R.string.downloads_not_connected)
+    // TODO(phase2): replace with the real engine.
     val result = MockData.result
 
     Column(
@@ -173,17 +175,25 @@ fun FormatScreen(viewModel: AppViewModel) {
             Spacer(Modifier.height(8.dp))
             SecondaryButton(
                 text = stringResource(R.string.format_video_only),
-                onClick = { viewModel.startMockDownload() },
+                onClick = { viewModel.downloadStatus = notConnected },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
 
         PrimaryButton(
             text = stringResource(R.string.common_download),
-            onClick = { viewModel.startMockDownload() },
+            onClick = { viewModel.downloadStatus = notConnected },
             modifier = Modifier.fillMaxWidth(),
             icon = Icons.Outlined.Download,
         )
+
+        viewModel.downloadStatus?.let { status ->
+            Text(
+                text = status,
+                color = colors.muted,
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
     }
 }
 

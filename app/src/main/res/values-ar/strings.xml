@@ -39,7 +39,7 @@
     <string name="home_feat1">بدون علامة مائية</string>
     <string name="home_feat2">حتى 4K 60fps</string>
     <string name="home_feat3">MP3 بجودة 320kbps</string>
-    <string name="home_open_playlist">فتح قائمة التشغيل التجريبية</string>
+    <string name="home_open_playlist">فتح قائمة التشغيل</string>
     <string name="home_paste_first">الصق رابطًا أولًا.</string>
     <string name="home_http_only">تُدعم روابط http:// و https:// فقط.</string>
     <string name="home_clipboard_empty">الحافظة فارغة.</string>
@@ -60,43 +60,18 @@
     <!-- Downloads -->
     <string name="downloads_title">التنزيلات</string>
     <string name="downloads_subtitle">التنزيلات النشطة وقائمة الانتظار.</string>
-    <string name="downloads_queue">قائمة الانتظار</string>
-    <string name="downloads_none_active">لا توجد تنزيلات نشطة.</string>
-    <string name="downloads_queue_empty">لا توجد تنزيلات في الانتظار.</string>
-    <string name="downloads_active_count">%1$d نشط</string>
-    <string name="downloads_waiting_count">%1$d في الانتظار</string>
-    <string name="downloads_status_done">مكتمل</string>
-    <string name="downloads_status_failed">فشل</string>
-    <string name="downloads_status_cancelled">ملغى</string>
-    <string name="downloads_status_paused">متوقف مؤقتًا</string>
-    <string name="downloads_status_processing">جارٍ المعالجة</string>
-    <string name="downloads_status_starting">جارٍ البدء...</string>
-    <string name="downloads_eta_left">متبقي %1$s</string>
-    <string name="downloads_queued">في الانتظار</string>
+    <string name="downloads_none_active">لا توجد تنزيلات بعد.</string>
+    <string name="downloads_not_connected">التنزيلات غير متصلة بعد.</string>
 
     <!-- History -->
     <string name="history_title">السجل</string>
     <string name="history_subtitle">التنزيلات المكتملة على هذا الجهاز.</string>
-    <string name="history_search_placeholder">ابحث في العنوان أو الموقع</string>
-    <string name="history_filter_all">الكل</string>
-    <string name="history_filter_video">فيديو</string>
-    <string name="history_filter_audio">صوت</string>
-    <string name="history_filter_images">صور</string>
-    <string name="history_empty">لا توجد تنزيلات مطابقة.</string>
-    <string name="history_type_video">فيديو</string>
-    <string name="history_type_audio">صوت</string>
-    <string name="history_type_images">صور</string>
-    <string name="history_mock_action">إجراء تجريبي (%1$s): %2$s</string>
+    <string name="history_empty">لا توجد تنزيلات بعد.</string>
 
     <!-- Playlist -->
     <string name="playlist_title">قائمة التشغيل</string>
-    <string name="playlist_subtitle_mock">قائمة تشغيل تجريبية تحتوي على %1$d عناصر.</string>
-    <string name="playlist_select_all">تحديد الكل</string>
-    <string name="playlist_clear_all">إلغاء التحديد</string>
-    <string name="playlist_selected_summary">تم تحديد %1$d من %2$d</string>
-    <string name="playlist_selected_count">تم تحديد %1$d</string>
-    <string name="playlist_mock_queued">تمت إضافة %1$d عنصر إلى قائمة الانتظار التجريبية.</string>
-    <string name="playlist_empty">قائمة التشغيل فارغة.</string>
+    <string name="playlist_subtitle">ستظهر عناصر قائمة التشغيل هنا.</string>
+    <string name="playlist_empty">لا توجد عناصر في قائمة التشغيل بعد.</string>
 
     <!-- Settings -->
     <string name="settings_title">الإعدادات</string>

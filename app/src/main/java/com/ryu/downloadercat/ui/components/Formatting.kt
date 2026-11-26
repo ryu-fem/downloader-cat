@@ -10,7 +10,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.ryu.downloadercat.R
-import com.ryu.downloadercat.data.DownloadItem
 import java.util.Locale
 
 fun formatSizeMb(value: Double): String =
@@ -24,45 +23,22 @@ fun formatSizeMb(value: Double): String =
 fun sizeText(sizeMb: Double): String =
     stringResource(R.string.size_mb, formatSizeMb(sizeMb))
 
-@Composable
-fun qualityLabel(id: String): String = when (id.lowercase()) {
-    "best" -> stringResource(R.string.quality_best)
-    "4k" -> stringResource(R.string.quality_4k)
-    "1440p" -> stringResource(R.string.quality_1440p)
-    "1080p" -> stringResource(R.string.quality_1080p)
-    "720p" -> stringResource(R.string.quality_720p)
-    "480p" -> stringResource(R.string.quality_480p)
-    "360p" -> stringResource(R.string.quality_360p)
-    "mp3" -> stringResource(R.string.quality_mp3)
-    "images" -> stringResource(R.string.quality_images)
-    else -> id
+fun qualityLabelRes(id: String): Int? = when (id.lowercase()) {
+    "best" -> R.string.quality_best
+    "4k" -> R.string.quality_4k
+    "1440p" -> R.string.quality_1440p
+    "1080p" -> R.string.quality_1080p
+    "720p" -> R.string.quality_720p
+    "480p" -> R.string.quality_480p
+    "360p" -> R.string.quality_360p
+    "mp3" -> R.string.quality_mp3
+    "images" -> R.string.quality_images
+    else -> null
 }
 
 @Composable
-fun downloadSpeedText(item: DownloadItem): String = when {
-    item.complete -> stringResource(R.string.downloads_status_done)
-    item.paused -> stringResource(R.string.downloads_status_paused)
-    else -> {
-        val speed = item.sizeMb * item.step / 100.0 / 0.9
-        stringResource(R.string.speed_mb_s, String.format(Locale.US, "%.1f", speed))
-    }
-}
-
-@Composable
-fun downloadEtaText(item: DownloadItem): String {
-    if (item.complete) return ""
-    if (item.paused) return "—"
-
-    val speed = item.sizeMb * item.step / 100.0 / 0.9
-    val remaining = item.sizeMb * (100.0 - item.percent) / 100.0
-    val seconds = if (speed > 0.0) (remaining / speed).toInt() else 0
-    val minutes = seconds / 60
-    val secs = seconds % 60
-    return stringResource(
-        R.string.downloads_eta_left,
-        String.format(Locale.US, "%d:%02d", minutes, secs),
-    )
-}
+fun qualityLabel(id: String): String =
+    qualityLabelRes(id)?.let { stringResource(it) } ?: id
 
 fun groupedShape(
     index: Int,

@@ -39,7 +39,7 @@
     <string name="home_feat1">No watermark</string>
     <string name="home_feat2">Up to 4K 60fps</string>
     <string name="home_feat3">320kbps MP3</string>
-    <string name="home_open_playlist">Open playlist demo</string>
+    <string name="home_open_playlist">Open playlist</string>
     <string name="home_paste_first">Paste a link first.</string>
     <string name="home_http_only">Only http:// and https:// links are supported.</string>
     <string name="home_clipboard_empty">Clipboard is empty.</string>
@@ -60,43 +60,18 @@
     <!-- Downloads -->
     <string name="downloads_title">Downloads</string>
     <string name="downloads_subtitle">Active transfers and the queue.</string>
-    <string name="downloads_queue">Queue</string>
-    <string name="downloads_none_active">No active downloads.</string>
-    <string name="downloads_queue_empty">No queued downloads.</string>
-    <string name="downloads_active_count">%1$d active</string>
-    <string name="downloads_waiting_count">%1$d waiting</string>
-    <string name="downloads_status_done">Done</string>
-    <string name="downloads_status_failed">Failed</string>
-    <string name="downloads_status_cancelled">Cancelled</string>
-    <string name="downloads_status_paused">Paused</string>
-    <string name="downloads_status_processing">Processing</string>
-    <string name="downloads_status_starting">Starting...</string>
-    <string name="downloads_eta_left">%1$s left</string>
-    <string name="downloads_queued">Queued</string>
+    <string name="downloads_none_active">No downloads yet.</string>
+    <string name="downloads_not_connected">Downloads are not connected yet.</string>
 
     <!-- History -->
     <string name="history_title">History</string>
     <string name="history_subtitle">Finished downloads on this device.</string>
-    <string name="history_search_placeholder">Search title or site</string>
-    <string name="history_filter_all">All</string>
-    <string name="history_filter_video">Video</string>
-    <string name="history_filter_audio">Audio</string>
-    <string name="history_filter_images">Images</string>
-    <string name="history_empty">No matching downloads.</string>
-    <string name="history_type_video">Video</string>
-    <string name="history_type_audio">Audio</string>
-    <string name="history_type_images">Images</string>
-    <string name="history_mock_action">Mock %1$s: %2$s</string>
+    <string name="history_empty">No downloads yet.</string>
 
     <!-- Playlist -->
     <string name="playlist_title">Playlist</string>
-    <string name="playlist_subtitle_mock">Mock playlist with %1$d items.</string>
-    <string name="playlist_select_all">Select all</string>
-    <string name="playlist_clear_all">Clear all</string>
-    <string name="playlist_selected_summary">%1$d of %2$d selected</string>
-    <string name="playlist_selected_count">%1$d selected</string>
-    <string name="playlist_mock_queued">Mock download queued for %1$d item(s).</string>
-    <string name="playlist_empty">Playlist has no entries.</string>
+    <string name="playlist_subtitle">Items from playlist links will appear here.</string>
+    <string name="playlist_empty">No playlist items yet.</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>

@@ -18,8 +18,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -41,7 +43,7 @@ import com.ryu.downloadercat.ui.components.SettingsGroup
 import com.ryu.downloadercat.ui.components.SettingsLogo
 import com.ryu.downloadercat.ui.components.SettingRowContainer
 import com.ryu.downloadercat.ui.components.mirrorForRtl
-import com.ryu.downloadercat.ui.components.qualityLabel
+import com.ryu.downloadercat.ui.components.qualityLabelRes
 import com.ryu.downloadercat.ui.theme.AppTheme
 import com.ryu.downloadercat.ui.theme.ThemeMode
 
@@ -50,14 +52,21 @@ fun SettingsScreen(viewModel: AppViewModel) {
     val colors = AppTheme.colors
     val isArabic = LocalConfiguration.current.locales.get(0).language == "ar"
 
-    val themeOptions = listOf(
-        DropdownOption(ThemeMode.SYSTEM, stringResource(R.string.theme_system)),
-        DropdownOption(ThemeMode.DARK, stringResource(R.string.theme_dark)),
-        DropdownOption(ThemeMode.LIGHT, stringResource(R.string.theme_light)),
-    )
-    val qualityOptions = mutableListOf<DropdownOption<String>>()
-    for (format in MockData.result.formats) {
-        qualityOptions += DropdownOption(format.id, qualityLabel(format.id))
+    val resources = LocalContext.current.resources
+    val themeOptions = remember(resources) {
+        listOf(
+            DropdownOption(ThemeMode.SYSTEM, resources.getString(R.string.theme_system)),
+            DropdownOption(ThemeMode.DARK, resources.getString(R.string.theme_dark)),
+            DropdownOption(ThemeMode.LIGHT, resources.getString(R.string.theme_light)),
+        )
+    }
+    val qualityOptions = remember(resources) {
+        MockData.result.formats.map { format ->
+            DropdownOption(
+                value = format.id,
+                label = qualityLabelRes(format.id)?.let { resources.getString(it) } ?: format.id,
+            )
+        }
     }
 
     val folderSoon = stringResource(R.string.settings_folder_soon)

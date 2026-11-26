@@ -143,8 +143,10 @@ fun HomeScreen(viewModel: AppViewModel) {
                         trimmed.isEmpty() -> viewModel.homeStatus = pasteFirst
                         !(trimmed.startsWith("http://") || trimmed.startsWith("https://")) ->
                             viewModel.homeStatus = httpOnly
+                        // TODO(phase2): replace with the real engine.
                         else -> {
                             viewModel.homeStatus = mockNotice
+                            viewModel.downloadStatus = null
                             viewModel.route = Route.Format
                         }
                     }

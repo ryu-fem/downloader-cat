@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import com.ryu.downloadercat.AppViewModel
+import com.ryu.downloadercat.BuildConfig
 import com.ryu.downloadercat.R
 import com.ryu.downloadercat.engine.EngineUpdateState
 import com.ryu.downloadercat.ui.components.AppDropdown
@@ -97,7 +98,7 @@ fun SettingsScreen(viewModel: AppViewModel) {
         viewModel.persistSettings()
     }
 
-    val upToDate = stringResource(R.string.settings_up_to_date)
+    val upToDate = stringResource(R.string.settings_up_to_date, BuildConfig.VERSION_NAME)
     val repoSoon = stringResource(R.string.settings_repo_soon)
 
     val version = viewModel.engineVersion
@@ -350,7 +351,7 @@ fun SettingsScreen(viewModel: AppViewModel) {
                     modifier = Modifier.weight(1f),
                 )
                 Text(
-                    text = stringResource(R.string.settings_version_value),
+                    text = stringResource(R.string.settings_version_value, BuildConfig.VERSION_NAME),
                     color = colors.muted,
                     style = MaterialTheme.typography.bodySmall,
                 )

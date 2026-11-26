@@ -2,7 +2,7 @@
 
 Native Android downloader for video, audio and images from YouTube, TikTok, Instagram, Reddit, Pinterest, X and any website that contains media yt-dlp can extract. DRM-protected media is never supported and never bypassed.
 
-**Status:** Phase 5 - playlist selection and downloads, subtitle/thumbnail options, browser cookies, and settings polish, on top of the foreground download service, MediaStore output, Room history and DataStore settings.
+**Status:** Phase 6 - signed release APK, GitHub Releases and adaptive launcher icon, on top of playlist downloads, the foreground download service, MediaStore output, Room history and DataStore settings.
 
 ## Stack
 
@@ -22,13 +22,41 @@ Native Android downloader for video, audio and images from YouTube, TikTok, Inst
 
 This repository is built only on GitHub Actions. The development laptop is intentionally not used for builds, and there is no Gradle wrapper in the repo.
 
-Workflow: `.github/workflows/android.yml`
+CI workflow: `.github/workflows/android.yml`
 
 - installs Temurin JDK 17 and Gradle 8.13,
 - runs `gradle assembleDebug` and `gradle assembleReleaseLike`,
 - uploads `downloader-cat-debug-apk` (`app-debug.apk`),
 - uploads `downloader-cat-release-like-apk` (`app-releaseLike.apk`, debug-signed, R8 enabled),
 - uploads `downloader-cat-release-like-mapping` (`mapping.txt`).
+
+Release workflow: `.github/workflows/release.yml`
+
+- runs on `v*` tags or manual dispatch,
+- builds `assembleRelease` with the real release keystore,
+- verifies the APK signature,
+- uploads `downloader-cat-release-apk`,
+- creates or updates the GitHub Release.
+
+### Release signing
+
+Add these repository secrets in GitHub:
+
+| Secret | Value |
+|---|---|
+| `RELEASE_KEYSTORE_BASE64` | base64 of the `.jks` release keystore |
+| `RELEASE_STORE_PASSWORD` | keystore password |
+| `RELEASE_KEY_ALIAS` | key alias |
+| `RELEASE_KEY_PASSWORD` | key password |
+
+Create and push a release tag:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+The workflow takes `versionName` from the tag and `versionCode` from the GitHub Actions run number. Never commit the keystore or passwords.
 
 ## Push to GitHub (HTTPS)
 

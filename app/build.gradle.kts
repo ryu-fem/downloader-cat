@@ -7,6 +7,20 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+val releaseKeystorePath = System.getenv("RELEASE_KEYSTORE_PATH")
+val releaseStorePassword = System.getenv("RELEASE_STORE_PASSWORD")
+val releaseKeyAlias = System.getenv("RELEASE_KEY_ALIAS")
+val releaseKeyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+val hasReleaseSigning = listOf(
+    releaseKeystorePath,
+    releaseStorePassword,
+    releaseKeyAlias,
+    releaseKeyPassword,
+).all { !it.isNullOrBlank() }
+
+val versionCodeOverride = System.getenv("VERSION_CODE")?.toIntOrNull()?.takeIf { it > 0 }
+val versionNameOverride = System.getenv("VERSION_NAME")?.takeIf { it.isNotBlank() }
+
 android {
     namespace = "com.ryu.downloadercat"
     compileSdk = 36
@@ -15,8 +29,8 @@ android {
         applicationId = "com.ryu.downloadercat"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = versionCodeOverride ?: 1
+        versionName = versionNameOverride ?: "0.1.0"
 
         // youtubedl-android ships yt-dlp/ffmpeg binaries for these ABIs.
         ndk {
@@ -24,8 +38,22 @@ android {
         }
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = releaseKeystorePath?.let { file(it) }
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -55,6 +83,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     androidResources {

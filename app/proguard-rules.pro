@@ -7,3 +7,8 @@
 # yt-dlp JSON is mapped through Jackson reflection.
 -keepattributes *Annotation*, Signature
 -keep class com.fasterxml.jackson.** { *; }
+
+# Jackson probes optional JVM/desktop APIs that Android does not ship.
+-dontwarn java.beans.ConstructorProperties
+-dontwarn java.beans.Transient
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry

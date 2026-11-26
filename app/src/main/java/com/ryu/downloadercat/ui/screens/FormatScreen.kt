@@ -1,5 +1,10 @@
 package com.ryu.downloadercat.ui.screens
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,14 +28,17 @@ import androidx.compose.material.icons.outlined.Movie
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.ryu.downloadercat.AppViewModel
 import com.ryu.downloadercat.R
 import com.ryu.downloadercat.Route
@@ -82,9 +90,49 @@ private fun FormatContent(
     media: MediaInfo,
 ) {
     val colors = AppTheme.colors
-    val notConnected = stringResource(R.string.downloads_not_connected)
+    val context = LocalContext.current
     val selectedFormat = media.formats.firstOrNull { it.id == viewModel.selectedFormatId }
         ?: media.formats.firstOrNull()
+    val qualityLabel = selectedFormat?.let { formatLabel(it) }
+        ?: stringResource(R.string.quality_best)
+
+    val requiredPermissions = remember {
+        buildList {
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                add(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions(),
+    ) {
+        val storageGranted = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ||
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            ) == PackageManager.PERMISSION_GRANTED
+
+        if (storageGranted) {
+            viewModel.startDownload(qualityLabel)
+        } else {
+            viewModel.downloadStatus = context.getString(R.string.error_permission)
+        }
+    }
+
+    fun requestDownload() {
+        val missing = requiredPermissions.filter {
+            ContextCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED
+        }
+        if (missing.isEmpty()) {
+            viewModel.startDownload(qualityLabel)
+        } else {
+            permissionLauncher.launch(missing.toTypedArray())
+        }
+    }
 
     AppCard {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -171,8 +219,7 @@ private fun FormatContent(
 
     PrimaryButton(
         text = stringResource(R.string.common_download),
-        // TODO(phase3): start the download service.
-        onClick = { viewModel.downloadStatus = notConnected },
+        onClick = { requestDownload() },
         enabled = media.formats.isNotEmpty(),
         modifier = Modifier.fillMaxWidth(),
         icon = Icons.Outlined.Download,

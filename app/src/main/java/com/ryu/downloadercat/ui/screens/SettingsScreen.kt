@@ -18,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -61,7 +62,7 @@ fun SettingsScreen(viewModel: AppViewModel) {
             DropdownOption(ThemeMode.LIGHT, resources.getString(R.string.theme_light)),
         )
     }
-    // TODO(phase3): apply the selected preset when starting downloads.
+    // TODO(phase4): apply this preset when a shared link skips the picker.
     val qualityOptions = remember(resources) {
         listOf("best", "1080p", "720p", "480p", "mp3").map { id ->
             DropdownOption(
@@ -71,7 +72,18 @@ fun SettingsScreen(viewModel: AppViewModel) {
         }
     }
 
-    val folderSoon = stringResource(R.string.settings_folder_soon)
+    LaunchedEffect(
+        viewModel.themeMode,
+        viewModel.downloadFolder,
+        viewModel.defaultQuality,
+        viewModel.skipPicker,
+        viewModel.concurrency,
+        viewModel.speedLimit,
+        viewModel.proxy,
+    ) {
+        viewModel.persistSettings()
+    }
+
     val upToDate = stringResource(R.string.settings_up_to_date)
     val repoSoon = stringResource(R.string.settings_repo_soon)
 
@@ -108,7 +120,7 @@ fun SettingsScreen(viewModel: AppViewModel) {
         )
 
         SettingsGroup(stringResource(R.string.settings_downloads)) {
-            SettingRowContainer(onClick = { viewModel.settingsStatus = folderSoon }) {
+            SettingRowContainer {
                 Column(Modifier.weight(1f)) {
                     Text(
                         text = stringResource(R.string.settings_folder),
@@ -125,14 +137,6 @@ fun SettingsScreen(viewModel: AppViewModel) {
                         overflow = TextOverflow.Ellipsis,
                     )
                 }
-                Icon(
-                    imageVector = Icons.Outlined.ChevronRight,
-                    contentDescription = null,
-                    tint = colors.muted,
-                    modifier = Modifier
-                        .size(18.dp)
-                        .mirrorForRtl(),
-                )
             }
 
             SettingRowContainer {
@@ -175,9 +179,9 @@ fun SettingsScreen(viewModel: AppViewModel) {
                 AppStepper(
                     value = viewModel.concurrency,
                     onDecrease = { if (viewModel.concurrency > 1) viewModel.concurrency -= 1 },
-                    onIncrease = { if (viewModel.concurrency < 6) viewModel.concurrency += 1 },
+                    onIncrease = { if (viewModel.concurrency < 8) viewModel.concurrency += 1 },
                     canDecrease = viewModel.concurrency > 1,
-                    canIncrease = viewModel.concurrency < 6,
+                    canIncrease = viewModel.concurrency < 8,
                 )
             }
 

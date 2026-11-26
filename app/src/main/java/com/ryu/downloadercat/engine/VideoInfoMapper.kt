@@ -20,6 +20,7 @@ fun VideoInfo.toMediaInfo(sourceUrl: String): MediaInfo {
         .curate()
 
     return MediaInfo(
+        sourceUrl = sourceUrl,
         site = extractorKey ?: extractor ?: hostOf(sourceUrl).orEmpty(),
         title = title ?: fulltitle ?: displayId ?: sourceUrl,
         channel = (uploader ?: uploaderId)?.takeIf { it.isNotBlank() },

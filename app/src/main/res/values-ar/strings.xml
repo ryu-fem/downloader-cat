@@ -64,12 +64,29 @@
     <string name="downloads_title">التنزيلات</string>
     <string name="downloads_subtitle">التنزيلات النشطة وقائمة الانتظار.</string>
     <string name="downloads_none_active">لا توجد تنزيلات بعد.</string>
-    <string name="downloads_not_connected">التنزيلات غير متصلة بعد.</string>
+    <string name="downloads_status_queued">في قائمة الانتظار</string>
+    <string name="downloads_status_starting">جارٍ البدء...</string>
+    <string name="downloads_status_downloading">جارٍ التنزيل</string>
+    <string name="downloads_status_processing">جارٍ المعالجة...</string>
+    <string name="downloads_status_completed">مكتمل</string>
+    <string name="downloads_status_failed">فشل</string>
+    <string name="downloads_status_canceled">ملغى</string>
+    <string name="downloads_clear_finished">مسح المكتمل</string>
+    <string name="downloads_percent">%1$d%%</string>
+    <string name="downloads_eta">الوقت المتبقي %1$s</string>
+    <string name="downloads_progress_detail">%1$s · %2$s</string>
+    <string name="notification_channel_name">التنزيلات</string>
+    <string name="notification_channel_description">تقدّم التنزيل واكتماله.</string>
+    <string name="notification_downloading">جارٍ تنزيل %1$d عنصر</string>
+    <string name="notification_preparing">جارٍ تحضير التنزيل...</string>
+    <string name="notification_finished">اكتمل التنزيل</string>
 
     <!-- History -->
     <string name="history_title">السجل</string>
     <string name="history_subtitle">التنزيلات المكتملة على هذا الجهاز.</string>
     <string name="history_empty">لا توجد تنزيلات بعد.</string>
+    <string name="history_open_failed">تعذر فتح %1$s.</string>
+    <string name="history_no_file">لا يوجد ملف محفوظ لهذا العنصر.</string>
 
     <!-- Playlist -->
     <string name="playlist_title">قائمة التشغيل</string>
@@ -81,7 +98,6 @@
     <string name="settings_subtitle">تفضيلات هذا الجهاز.</string>
     <string name="settings_downloads">التنزيلات</string>
     <string name="settings_folder">مجلد التنزيل</string>
-    <string name="settings_folder_soon">سيتم إضافة اختيار المجلد في مرحلة لاحقة.</string>
     <string name="settings_default_quality">الجودة الافتراضية</string>
     <string name="settings_skip_picker">تخطي اختيار الصيغة عند مشاركة الروابط</string>
     <string name="settings_concurrency">التنزيلات المتزامنة</string>
@@ -103,7 +119,7 @@
     <string name="settings_engine_up_to_date">محدّث (%1$s)</string>
     <string name="settings_about">حول</string>
     <string name="settings_version">الإصدار</string>
-    <string name="settings_version_value">0.1.0 (المرحلة 2)</string>
+    <string name="settings_version_value">0.1.0 (المرحلة 3)</string>
     <string name="settings_check_updates">التحقق من التحديثات</string>
     <string name="settings_github">الكود المصدري / GitHub</string>
     <string name="settings_up_to_date">أنت على الإصدار v0.1.0.</string>
@@ -138,6 +154,8 @@
     <string name="error_extractor">تعذر استخراج الوسائط من هذا الرابط.</string>
     <string name="error_parse">تعذر قراءة معلومات الوسائط.</string>
     <string name="error_engine_init">تعذر بدء محرك التنزيل.</string>
+    <string name="error_permission">يلزم إذن التخزين أو الإشعارات.</string>
+    <string name="error_storage">تعذر حفظ الملف في التخزين.</string>
     <string name="error_canceled">تم إلغاء الجلب.</string>
     <string name="error_unknown">حدث خطأ ما. حاول مجددًا.</string>
 

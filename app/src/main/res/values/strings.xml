@@ -64,12 +64,29 @@
     <string name="downloads_title">Downloads</string>
     <string name="downloads_subtitle">Active transfers and the queue.</string>
     <string name="downloads_none_active">No downloads yet.</string>
-    <string name="downloads_not_connected">Downloads are not connected yet.</string>
+    <string name="downloads_status_queued">Queued</string>
+    <string name="downloads_status_starting">Starting...</string>
+    <string name="downloads_status_downloading">Downloading</string>
+    <string name="downloads_status_processing">Processing...</string>
+    <string name="downloads_status_completed">Completed</string>
+    <string name="downloads_status_failed">Failed</string>
+    <string name="downloads_status_canceled">Canceled</string>
+    <string name="downloads_clear_finished">Clear finished</string>
+    <string name="downloads_percent">%1$d%%</string>
+    <string name="downloads_eta">ETA %1$s</string>
+    <string name="downloads_progress_detail">%1$s · %2$s</string>
+    <string name="notification_channel_name">Downloads</string>
+    <string name="notification_channel_description">Download progress and completion.</string>
+    <string name="notification_downloading">Downloading %1$d item(s)</string>
+    <string name="notification_preparing">Preparing download...</string>
+    <string name="notification_finished">Download finished</string>
 
     <!-- History -->
     <string name="history_title">History</string>
     <string name="history_subtitle">Finished downloads on this device.</string>
     <string name="history_empty">No downloads yet.</string>
+    <string name="history_open_failed">Could not open %1$s.</string>
+    <string name="history_no_file">No file is saved for this item.</string>
 
     <!-- Playlist -->
     <string name="playlist_title">Playlist</string>
@@ -81,7 +98,6 @@
     <string name="settings_subtitle">Preferences for this device.</string>
     <string name="settings_downloads">Downloads</string>
     <string name="settings_folder">Download folder</string>
-    <string name="settings_folder_soon">Folder selection will be added in a later phase.</string>
     <string name="settings_default_quality">Default quality</string>
     <string name="settings_skip_picker">Skip the format picker for shared links</string>
     <string name="settings_concurrency">Concurrent downloads</string>
@@ -103,7 +119,7 @@
     <string name="settings_engine_up_to_date">Up to date (%1$s)</string>
     <string name="settings_about">About</string>
     <string name="settings_version">Version</string>
-    <string name="settings_version_value">0.1.0 (Phase 2)</string>
+    <string name="settings_version_value">0.1.0 (Phase 3)</string>
     <string name="settings_check_updates">Check for updates</string>
     <string name="settings_github">Source code / GitHub</string>
     <string name="settings_up_to_date">You are on v0.1.0.</string>
@@ -138,6 +154,8 @@
     <string name="error_extractor">Could not extract media from this link.</string>
     <string name="error_parse">Could not read the media information.</string>
     <string name="error_engine_init">Download engine could not start.</string>
+    <string name="error_permission">Storage or notification permission is required.</string>
+    <string name="error_storage">Could not save the file to storage.</string>
     <string name="error_canceled">Fetch canceled.</string>
     <string name="error_unknown">Something went wrong. Try again.</string>
 

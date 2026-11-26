@@ -7,21 +7,33 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.ryu.downloadercat.data.AppSettings
+import com.ryu.downloadercat.data.DownloadRecord
+import com.ryu.downloadercat.data.HistoryRepository
 import com.ryu.downloadercat.data.MediaInfo
+import com.ryu.downloadercat.data.SettingsRepository
+import com.ryu.downloadercat.download.DownloadRepository
+import com.ryu.downloadercat.download.DownloadTask
 import com.ryu.downloadercat.engine.DownloaderEngine
 import com.ryu.downloadercat.engine.EngineError
 import com.ryu.downloadercat.engine.EngineUpdateState
 import com.ryu.downloadercat.engine.toMediaInfo
 import com.ryu.downloadercat.ui.theme.ThemeMode
+import java.util.Locale
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-/**
- * Phase 1/2 keeps shell state in memory. Room and DataStore arrive in phase 3.
- */
 @Stable
 class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val appContext = application.applicationContext
+    private val historyRepository = HistoryRepository(appContext)
+    private val settingsRepository = SettingsRepository(appContext)
+    private var settingsLoaded = false
 
     var route by mutableStateOf<Route>(Route.Home)
 
@@ -41,7 +53,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     var themeMode by mutableStateOf(ThemeMode.DARK)
 
-    var downloadFolder by mutableStateOf("Downloads/DownloaderCat")
+    var downloadFolder by mutableStateOf("Download/DownloaderCat")
     var defaultQuality by mutableStateOf("best")
     var skipPicker by mutableStateOf(false)
     var concurrency by mutableStateOf(2)
@@ -49,7 +61,15 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     var proxy by mutableStateOf("")
     var settingsStatus by mutableStateOf<String?>(null)
 
+    val downloadTasks: StateFlow<List<DownloadTask>> = DownloadRepository.tasks
+    val history: StateFlow<List<DownloadRecord>> = historyRepository.items.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        initialValue = emptyList(),
+    )
+
     init {
+        viewModelScope.launch { loadSettings() }
         viewModelScope.launch {
             try {
                 DownloaderEngine.initialize(appContext)
@@ -120,5 +140,89 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 engineUpdateState = EngineUpdateState.FAILED
             }
         }
+    }
+
+    fun startDownload(qualityLabel: String) {
+        val media = mediaInfo ?: return
+        val format = media.formats.firstOrNull { it.id == selectedFormatId }
+            ?: media.formats.firstOrNull()
+            ?: return
+
+        downloadStatus = null
+        try {
+            DownloadRepository.enqueue(
+                context = appContext,
+                media = media,
+                format = format,
+                qualityLabel = qualityLabel,
+                subtitles = subtitles,
+                embedThumbnail = embedThumbnail,
+            )
+            route = Route.Downloads
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Throwable) {
+            downloadStatus = appContext.getString(R.string.error_unknown)
+        }
+    }
+
+    fun cancelDownload(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            DownloadRepository.cancel(id)
+        }
+    }
+
+    fun clearFinishedDownloads() {
+        DownloadRepository.clearFinished()
+    }
+
+    fun deleteHistoryItem(id: String) {
+        viewModelScope.launch {
+            historyRepository.delete(id)
+        }
+    }
+
+    fun persistSettings() {
+        if (!settingsLoaded) return
+
+        val snapshot = AppSettings(
+            downloadFolder = downloadFolder,
+            defaultQuality = defaultQuality,
+            skipPicker = skipPicker,
+            concurrency = concurrency.coerceIn(1, 8),
+            speedLimitMb = speedLimit.toIntOrNull() ?: 0,
+            proxy = proxy,
+            themeMode = themeMode.name.lowercase(Locale.US),
+        )
+
+        viewModelScope.launch {
+            try {
+                settingsRepository.update(snapshot)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (_: Throwable) {
+                settingsStatus = appContext.getString(R.string.error_unknown)
+            }
+        }
+    }
+
+    private suspend fun loadSettings() {
+        try {
+            val stored = settingsRepository.settings.first()
+            themeMode = runCatching {
+                ThemeMode.valueOf(stored.themeMode.uppercase(Locale.US))
+            }.getOrDefault(ThemeMode.DARK)
+            downloadFolder = stored.downloadFolder
+            defaultQuality = stored.defaultQuality
+            skipPicker = stored.skipPicker
+            concurrency = stored.concurrency.coerceIn(1, 8)
+            speedLimit = stored.speedLimitMb.takeIf { it > 0 }?.toString().orEmpty()
+            proxy = stored.proxy
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Throwable) {
+            // Keep the defaults if the settings file cannot be read.
+        }
+        settingsLoaded = true
     }
 }

@@ -17,6 +17,7 @@ data class MediaFormat(
 )
 
 data class MediaInfo(
+    val sourceUrl: String,
     val site: String,
     val title: String,
     val channel: String?,

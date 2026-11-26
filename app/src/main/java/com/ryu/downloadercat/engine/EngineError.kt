@@ -12,6 +12,8 @@ enum class EngineError {
     ENGINE_INIT,
     NO_FORMATS,
     CANCELED,
+    PERMISSION,
+    STORAGE,
     UNKNOWN,
 }
 

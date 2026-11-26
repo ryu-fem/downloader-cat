@@ -19,6 +19,8 @@ fun EngineError.messageRes(): Int = when (this) {
     EngineError.ENGINE_INIT -> R.string.error_engine_init
     EngineError.NO_FORMATS -> R.string.format_no_formats
     EngineError.CANCELED -> R.string.error_canceled
+    EngineError.PERMISSION -> R.string.error_permission
+    EngineError.STORAGE -> R.string.error_storage
     EngineError.UNKNOWN -> R.string.error_unknown
 }
 

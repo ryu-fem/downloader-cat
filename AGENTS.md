@@ -35,7 +35,7 @@ Downloader Cat is a native Android app that downloads video, audio and images fr
 | minSdk | 24 | required by youtubedl-android 0.18.1 |
 | core-ktx | 1.18.0 | 1.19.1 requires compileSdk 37; do not bump until compileSdk moves |
 | activity-compose | 1.13.0 | |
-| lifecycle-runtime-ktx | 2.11.1 | |
+| lifecycle (runtime-ktx, runtime-compose, viewmodel-compose) | 2.10.0 | 2.11.x requires compileSdk 37 + AGP 9.1.0 |
 
 All versions live in `gradle/libs.versions.toml`. Do not hardcode versions in module build files.
 

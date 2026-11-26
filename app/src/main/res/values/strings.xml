@@ -1,4 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Downloader Cat</string>
+    <string name="wordmark_downloader">Downloader</string>
+    <string name="wordmark_cat">Cat</string>
+    <string name="app_subtitle">Videos, audio and images</string>
+
+    <!-- Tabs -->
+    <string name="tab_home">Home</string>
+    <string name="tab_downloads">Downloads</string>
+    <string name="tab_history">History</string>
+    <string name="tab_settings">Settings</string>
+
+    <!-- Common -->
+    <string name="common_paste">Paste</string>
+    <string name="common_download">Download</string>
+    <string name="common_change">Change</string>
+    <string name="common_open">Open</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_unknown_site">Unknown site</string>
+    <string name="common_untitled">Untitled</string>
+    <string name="common_unknown_channel">Unknown channel</string>
+    <string name="common_unknown_error">Unknown error</string>
+    <string name="common_unknown">unknown</string>
+
+    <!-- Units -->
+    <string name="size_mb">%1$s MB</string>
+    <string name="speed_mb_s">%1$s MB/s</string>
+    <string name="unit_mb_s">MB/s</string>
+
+    <!-- Home -->
+    <string name="home_hero_line1">Paste link.</string>
+    <string name="home_hero_line2">Download instantly.</string>
+    <string name="home_hero_desc">Grab high-resolution 4K video, lossless audio, or raw photos straight to your gallery.</string>
+    <string name="home_direct_url">Direct URL</string>
+    <string name="home_placeholder">Paste Instagram, YouTube, TikTok link...</string>
+    <string name="home_download_video">Download video</string>
+    <string name="home_auto_detect">Auto-detect</string>
+    <string name="home_feat1">No watermark</string>
+    <string name="home_feat2">Up to 4K 60fps</string>
+    <string name="home_feat3">320kbps MP3</string>
+    <string name="home_open_playlist">Open playlist demo</string>
+    <string name="home_paste_first">Paste a link first.</string>
+    <string name="home_http_only">Only http:// and https:// links are supported.</string>
+    <string name="home_clipboard_empty">Clipboard is empty.</string>
+    <string name="home_clipboard_unavailable">Clipboard access is unavailable.</string>
+    <string name="home_mock_notice">Showing mock data.</string>
+
+    <!-- Format -->
+    <string name="format_title">Format &amp; Quality</string>
+    <string name="format_subtitle">Choose download options</string>
+    <string name="format_section_format">Format</string>
+    <string name="format_options">Options</string>
+    <string name="format_subtitles">Subtitles</string>
+    <string name="format_embed_thumbnail">Embed thumbnail</string>
+    <string name="format_playlist_notice">This video is part of a playlist.</string>
+    <string name="format_video_only">This video only</string>
+    <string name="format_whole_playlist">Whole playlist</string>
+
+    <!-- Downloads -->
+    <string name="downloads_title">Downloads</string>
+    <string name="downloads_subtitle">Active transfers and the queue.</string>
+    <string name="downloads_queue">Queue</string>
+    <string name="downloads_none_active">No active downloads.</string>
+    <string name="downloads_queue_empty">No queued downloads.</string>
+    <string name="downloads_active_count">%1$d active</string>
+    <string name="downloads_waiting_count">%1$d waiting</string>
+    <string name="downloads_status_done">Done</string>
+    <string name="downloads_status_failed">Failed</string>
+    <string name="downloads_status_cancelled">Cancelled</string>
+    <string name="downloads_status_paused">Paused</string>
+    <string name="downloads_status_processing">Processing</string>
+    <string name="downloads_status_starting">Starting...</string>
+    <string name="downloads_eta_left">%1$s left</string>
+    <string name="downloads_queued">Queued</string>
+
+    <!-- History -->
+    <string name="history_title">History</string>
+    <string name="history_subtitle">Finished downloads on this device.</string>
+    <string name="history_search_placeholder">Search title or site</string>
+    <string name="history_filter_all">All</string>
+    <string name="history_filter_video">Video</string>
+    <string name="history_filter_audio">Audio</string>
+    <string name="history_filter_images">Images</string>
+    <string name="history_empty">No matching downloads.</string>
+    <string name="history_type_video">Video</string>
+    <string name="history_type_audio">Audio</string>
+    <string name="history_type_images">Images</string>
+    <string name="history_mock_action">Mock %1$s: %2$s</string>
+
+    <!-- Playlist -->
+    <string name="playlist_title">Playlist</string>
+    <string name="playlist_subtitle_mock">Mock playlist with %1$d items.</string>
+    <string name="playlist_select_all">Select all</string>
+    <string name="playlist_clear_all">Clear all</string>
+    <string name="playlist_selected_summary">%1$d of %2$d selected</string>
+    <string name="playlist_selected_count">%1$d selected</string>
+    <string name="playlist_mock_queued">Mock download queued for %1$d item(s).</string>
+    <string name="playlist_empty">Playlist has no entries.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_subtitle">Preferences for this device.</string>
+    <string name="settings_downloads">Downloads</string>
+    <string name="settings_folder">Download folder</string>
+    <string name="settings_folder_soon">Folder selection will be added in a later phase.</string>
+    <string name="settings_default_quality">Default quality</string>
+    <string name="settings_skip_picker">Skip the format picker for shared links</string>
+    <string name="settings_concurrency">Concurrent downloads</string>
+    <string name="settings_speed_limit">Speed limit</string>
+    <string name="settings_unlimited">Unlimited</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_network">Network</string>
+    <string name="settings_proxy">Proxy</string>
+    <string name="settings_proxy_placeholder">http://host:port</string>
+    <string name="settings_cookies">Cookies from browser</string>
+    <string name="settings_engine">Engine</string>
+    <string name="settings_engine_not_checked">Not checked</string>
+    <string name="settings_update_engine">Update engine</string>
+    <string name="settings_engine_soon">Engine updates will be added with the download engine.</string>
+    <string name="settings_about">About</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_version_value">0.1.0 (Phase 1)</string>
+    <string name="settings_check_updates">Check for updates</string>
+    <string name="settings_github">Source code / GitHub</string>
+    <string name="settings_up_to_date">You are on v0.1.0.</string>
+    <string name="settings_repo_soon">Repository link will be added soon.</string>
+
+    <!-- Choices -->
+    <string name="theme_system">System</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="language_english">English</string>
+    <string name="language_arabic">العربية</string>
+    <string name="cookies_none">None</string>
+
+    <!-- Quality labels -->
+    <string name="quality_best">Best</string>
+    <string name="quality_4k">4K</string>
+    <string name="quality_1440p">1440p</string>
+    <string name="quality_1080p">1080p</string>
+    <string name="quality_720p">720p</string>
+    <string name="quality_480p">480p</string>
+    <string name="quality_360p">360p</string>
+    <string name="quality_mp3">MP3</string>
+    <string name="quality_images">Images</string>
+
+    <!-- Accessibility -->
+    <string name="aria_back_to_home">Back to Home</string>
+    <string name="aria_download_format">Download format</string>
+    <string name="aria_filter_history">Filter history</string>
+    <string name="aria_playlist_selection">Playlist selection</string>
+    <string name="aria_concurrency">Concurrent downloads</string>
+    <string name="aria_concurrency_down">Decrease concurrent downloads</string>
+    <string name="aria_concurrency_up">Increase concurrent downloads</string>
+    <string name="aria_toggle_language">Toggle language</string>
+    <string name="aria_main_nav">Main navigation</string>
+    <string name="aria_select_item">Select %1$s</string>
+    <string name="aria_open_item">Open %1$s</string>
+    <string name="aria_delete_item">Delete %1$s</string>
+    <string name="aria_download_complete">Download complete</string>
+    <string name="aria_resume_download">Resume download</string>
+    <string name="aria_pause_download">Pause download</string>
+    <string name="aria_cancel_download">Cancel download</string>
+    <string name="aria_download_progress">%1$s download progress</string>
+    <string name="aria_paste">Paste link</string>
+    <string name="aria_theme">Theme</string>
+    <string name="aria_default_quality">Default quality</string>
+    <string name="aria_cookies">Cookies from browser</string>
 </resources>

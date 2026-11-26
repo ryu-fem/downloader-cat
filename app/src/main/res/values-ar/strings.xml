@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Downloader Cat</string>
+    <string name="wordmark_downloader">Downloader</string>
+    <string name="wordmark_cat">Cat</string>
+    <string name="app_subtitle">فيديو وصوت وصور</string>
+
+    <!-- Tabs -->
+    <string name="tab_home">الرئيسية</string>
+    <string name="tab_downloads">التنزيلات</string>
+    <string name="tab_history">السجل</string>
+    <string name="tab_settings">الإعدادات</string>
+
+    <!-- Common -->
+    <string name="common_paste">لصق</string>
+    <string name="common_download">تنزيل</string>
+    <string name="common_change">تغيير</string>
+    <string name="common_open">فتح</string>
+    <string name="common_delete">حذف</string>
+    <string name="common_unknown_site">موقع غير معروف</string>
+    <string name="common_untitled">بدون عنوان</string>
+    <string name="common_unknown_channel">قناة غير معروفة</string>
+    <string name="common_unknown_error">خطأ غير معروف</string>
+    <string name="common_unknown">غير معروف</string>
+
+    <!-- Units -->
+    <string name="size_mb">%1$s MB</string>
+    <string name="speed_mb_s">%1$s MB/s</string>
+    <string name="unit_mb_s">MB/s</string>
+
+    <!-- Home -->
+    <string name="home_hero_line1">الصق الرابط.</string>
+    <string name="home_hero_line2">نزّل فورًا.</string>
+    <string name="home_hero_desc">احصل على فيديو 4K عالي الدقة، وصوت بلا فقدان، أو صور أصلية مباشرة إلى معرضك.</string>
+    <string name="home_direct_url">رابط مباشر</string>
+    <string name="home_placeholder">الصق رابط إنستغرام أو يوتيوب أو تيك توك...</string>
+    <string name="home_download_video">تنزيل الفيديو</string>
+    <string name="home_auto_detect">كشف تلقائي</string>
+    <string name="home_feat1">بدون علامة مائية</string>
+    <string name="home_feat2">حتى 4K 60fps</string>
+    <string name="home_feat3">MP3 بجودة 320kbps</string>
+    <string name="home_open_playlist">فتح قائمة التشغيل التجريبية</string>
+    <string name="home_paste_first">الصق رابطًا أولًا.</string>
+    <string name="home_http_only">تُدعم روابط http:// و https:// فقط.</string>
+    <string name="home_clipboard_empty">الحافظة فارغة.</string>
+    <string name="home_clipboard_unavailable">الوصول إلى الحافظة غير متاح.</string>
+    <string name="home_mock_notice">يتم عرض بيانات تجريبية.</string>
+
+    <!-- Format -->
+    <string name="format_title">الصيغة والجودة</string>
+    <string name="format_subtitle">اختر خيارات التنزيل</string>
+    <string name="format_section_format">الصيغة</string>
+    <string name="format_options">الخيارات</string>
+    <string name="format_subtitles">الترجمة</string>
+    <string name="format_embed_thumbnail">تضمين الصورة المصغرة</string>
+    <string name="format_playlist_notice">هذا الفيديو جزء من قائمة تشغيل.</string>
+    <string name="format_video_only">هذا الفيديو فقط</string>
+    <string name="format_whole_playlist">قائمة التشغيل كاملة</string>
+
+    <!-- Downloads -->
+    <string name="downloads_title">التنزيلات</string>
+    <string name="downloads_subtitle">التنزيلات النشطة وقائمة الانتظار.</string>
+    <string name="downloads_queue">قائمة الانتظار</string>
+    <string name="downloads_none_active">لا توجد تنزيلات نشطة.</string>
+    <string name="downloads_queue_empty">لا توجد تنزيلات في الانتظار.</string>
+    <string name="downloads_active_count">%1$d نشط</string>
+    <string name="downloads_waiting_count">%1$d في الانتظار</string>
+    <string name="downloads_status_done">مكتمل</string>
+    <string name="downloads_status_failed">فشل</string>
+    <string name="downloads_status_cancelled">ملغى</string>
+    <string name="downloads_status_paused">متوقف مؤقتًا</string>
+    <string name="downloads_status_processing">جارٍ المعالجة</string>
+    <string name="downloads_status_starting">جارٍ البدء...</string>
+    <string name="downloads_eta_left">متبقي %1$s</string>
+    <string name="downloads_queued">في الانتظار</string>
+
+    <!-- History -->
+    <string name="history_title">السجل</string>
+    <string name="history_subtitle">التنزيلات المكتملة على هذا الجهاز.</string>
+    <string name="history_search_placeholder">ابحث في العنوان أو الموقع</string>
+    <string name="history_filter_all">الكل</string>
+    <string name="history_filter_video">فيديو</string>
+    <string name="history_filter_audio">صوت</string>
+    <string name="history_filter_images">صور</string>
+    <string name="history_empty">لا توجد تنزيلات مطابقة.</string>
+    <string name="history_type_video">فيديو</string>
+    <string name="history_type_audio">صوت</string>
+    <string name="history_type_images">صور</string>
+    <string name="history_mock_action">إجراء تجريبي (%1$s): %2$s</string>
+
+    <!-- Playlist -->
+    <string name="playlist_title">قائمة التشغيل</string>
+    <string name="playlist_subtitle_mock">قائمة تشغيل تجريبية تحتوي على %1$d عناصر.</string>
+    <string name="playlist_select_all">تحديد الكل</string>
+    <string name="playlist_clear_all">إلغاء التحديد</string>
+    <string name="playlist_selected_summary">تم تحديد %1$d من %2$d</string>
+    <string name="playlist_selected_count">تم تحديد %1$d</string>
+    <string name="playlist_mock_queued">تمت إضافة %1$d عنصر إلى قائمة الانتظار التجريبية.</string>
+    <string name="playlist_empty">قائمة التشغيل فارغة.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_subtitle">تفضيلات هذا الجهاز.</string>
+    <string name="settings_downloads">التنزيلات</string>
+    <string name="settings_folder">مجلد التنزيل</string>
+    <string name="settings_folder_soon">سيتم إضافة اختيار المجلد في مرحلة لاحقة.</string>
+    <string name="settings_default_quality">الجودة الافتراضية</string>
+    <string name="settings_skip_picker">تخطي اختيار الصيغة عند مشاركة الروابط</string>
+    <string name="settings_concurrency">التنزيلات المتزامنة</string>
+    <string name="settings_speed_limit">حد السرعة</string>
+    <string name="settings_unlimited">غير محدود</string>
+    <string name="settings_appearance">المظهر</string>
+    <string name="settings_theme">النمط</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_network">الشبكة</string>
+    <string name="settings_proxy">الوكيل</string>
+    <string name="settings_proxy_placeholder">http://host:port</string>
+    <string name="settings_cookies">ملفات تعريف الارتباط من المتصفح</string>
+    <string name="settings_engine">المحرّك</string>
+    <string name="settings_engine_not_checked">لم يتم الفحص</string>
+    <string name="settings_update_engine">تحديث المحرّك</string>
+    <string name="settings_engine_soon">سيتم إضافة تحديثات المحرّك مع محرّك التنزيل.</string>
+    <string name="settings_about">حول</string>
+    <string name="settings_version">الإصدار</string>
+    <string name="settings_version_value">0.1.0 (المرحلة 1)</string>
+    <string name="settings_check_updates">التحقق من التحديثات</string>
+    <string name="settings_github">الكود المصدري / GitHub</string>
+    <string name="settings_up_to_date">أنت على الإصدار v0.1.0.</string>
+    <string name="settings_repo_soon">سيتم إضافة رابط المستودع قريبًا.</string>
+
+    <!-- Choices -->
+    <string name="theme_system">النظام</string>
+    <string name="theme_dark">داكن</string>
+    <string name="theme_light">فاتح</string>
+    <string name="language_english">English</string>
+    <string name="language_arabic">العربية</string>
+    <string name="cookies_none">بدون</string>
+
+    <!-- Quality labels -->
+    <string name="quality_best">الأفضل</string>
+    <string name="quality_4k">4K</string>
+    <string name="quality_1440p">1440p</string>
+    <string name="quality_1080p">1080p</string>
+    <string name="quality_720p">720p</string>
+    <string name="quality_480p">480p</string>
+    <string name="quality_360p">360p</string>
+    <string name="quality_mp3">MP3</string>
+    <string name="quality_images">صور</string>
+
+    <!-- Accessibility -->
+    <string name="aria_back_to_home">العودة إلى الرئيسية</string>
+    <string name="aria_download_format">صيغة التنزيل</string>
+    <string name="aria_filter_history">تصفية السجل</string>
+    <string name="aria_playlist_selection">تحديد قائمة التشغيل</string>
+    <string name="aria_concurrency">التنزيلات المتزامنة</string>
+    <string name="aria_concurrency_down">تقليل التنزيلات المتزامنة</string>
+    <string name="aria_concurrency_up">زيادة التنزيلات المتزامنة</string>
+    <string name="aria_toggle_language">تبديل اللغة</string>
+    <string name="aria_main_nav">التنقل الرئيسي</string>
+    <string name="aria_select_item">تحديد %1$s</string>
+    <string name="aria_open_item">فتح %1$s</string>
+    <string name="aria_delete_item">حذف %1$s</string>
+    <string name="aria_download_complete">اكتمل التنزيل</string>
+    <string name="aria_resume_download">استئناف التنزيل</string>
+    <string name="aria_pause_download">إيقاف التنزيل مؤقتًا</string>
+    <string name="aria_cancel_download">إلغاء التنزيل</string>
+    <string name="aria_download_progress">تقدّم تنزيل %1$s</string>
+    <string name="aria_paste">لصق رابط</string>
+    <string name="aria_theme">النمط</string>
+    <string name="aria_default_quality">الجودة الافتراضية</string>
+    <string name="aria_cookies">ملفات تعريف الارتباط من المتصفح</string>
+</resources>

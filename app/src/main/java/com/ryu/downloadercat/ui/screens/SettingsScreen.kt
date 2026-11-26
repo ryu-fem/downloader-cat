@@ -64,11 +64,23 @@ fun SettingsScreen(viewModel: AppViewModel) {
     }
     // Shared links resolve this preset and skip the picker when enabled.
     val qualityOptions = remember(resources) {
-        listOf("best", "1080p", "720p", "480p", "mp3").map { id ->
+        listOf("best", "4k", "1440p", "1080p", "720p", "480p", "360p", "mp3").map { id ->
             DropdownOption(
                 value = id,
                 label = qualityLabelRes(id)?.let { resources.getString(it) } ?: id,
             )
+        }
+    }
+    val cookieOptions = remember(resources) {
+        listOf("none", "chrome", "firefox", "chromium", "edge").map { id ->
+            val label = when (id) {
+                "chrome" -> R.string.cookies_chrome
+                "firefox" -> R.string.cookies_firefox
+                "chromium" -> R.string.cookies_chromium
+                "edge" -> R.string.cookies_edge
+                else -> R.string.cookies_none
+            }
+            DropdownOption(value = id, label = resources.getString(label))
         }
     }
 
@@ -80,6 +92,7 @@ fun SettingsScreen(viewModel: AppViewModel) {
         viewModel.concurrency,
         viewModel.speedLimit,
         viewModel.proxy,
+        viewModel.cookiesFromBrowser,
     ) {
         viewModel.persistSettings()
     }
@@ -291,10 +304,11 @@ fun SettingsScreen(viewModel: AppViewModel) {
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.weight(1f),
                 )
-                Text(
-                    text = stringResource(R.string.cookies_none),
-                    color = colors.muted,
-                    style = MaterialTheme.typography.bodySmall,
+                AppDropdown(
+                    value = viewModel.cookiesFromBrowser,
+                    options = cookieOptions,
+                    onSelect = { viewModel.cookiesFromBrowser = it },
+                    dropdownContentDescription = stringResource(R.string.aria_cookies),
                 )
             }
         }

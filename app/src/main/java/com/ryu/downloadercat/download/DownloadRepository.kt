@@ -2,6 +2,7 @@ package com.ryu.downloadercat.download
 
 import android.content.Context
 import com.ryu.downloadercat.R
+import com.ryu.downloadercat.data.FormatKind
 import com.ryu.downloadercat.data.MediaFormat
 import com.ryu.downloadercat.data.MediaInfo
 import com.ryu.downloadercat.engine.EngineError
@@ -24,16 +25,61 @@ object DownloadRepository {
         qualityLabel: String,
         subtitles: Boolean,
         embedThumbnail: Boolean,
+    ): String = enqueueTask(
+        context = context,
+        url = media.sourceUrl,
+        title = media.title,
+        site = media.site,
+        formatId = format.id,
+        kind = format.kind,
+        ext = format.ext,
+        qualityLabel = qualityLabel,
+        subtitles = subtitles,
+        embedThumbnail = embedThumbnail,
+    )
+
+    fun enqueueUrl(
+        context: Context,
+        url: String,
+        title: String,
+        site: String,
+        qualityLabel: String,
+        subtitles: Boolean,
+        embedThumbnail: Boolean,
+    ): String = enqueueTask(
+        context = context,
+        url = url,
+        title = title,
+        site = site,
+        formatId = "best",
+        kind = FormatKind.VIDEO,
+        ext = "mp4",
+        qualityLabel = qualityLabel,
+        subtitles = subtitles,
+        embedThumbnail = embedThumbnail,
+    )
+
+    private fun enqueueTask(
+        context: Context,
+        url: String,
+        title: String,
+        site: String,
+        formatId: String,
+        kind: FormatKind,
+        ext: String,
+        qualityLabel: String,
+        subtitles: Boolean,
+        embedThumbnail: Boolean,
     ): String {
         val id = "download-${System.currentTimeMillis()}-${nextId.getAndIncrement()}"
         val task = DownloadTask(
             id = id,
-            url = media.sourceUrl,
-            title = media.title.ifBlank { context.getString(R.string.common_untitled) },
-            site = media.site.ifBlank { context.getString(R.string.common_unknown_site) },
-            formatId = format.id,
-            kind = format.kind,
-            ext = format.ext,
+            url = url,
+            title = title.ifBlank { context.getString(R.string.common_untitled) },
+            site = site.ifBlank { context.getString(R.string.common_unknown_site) },
+            formatId = formatId,
+            kind = kind,
+            ext = ext,
             quality = qualityLabel.ifBlank { context.getString(R.string.quality_best) },
             subtitles = subtitles,
             embedThumbnail = embedThumbnail,

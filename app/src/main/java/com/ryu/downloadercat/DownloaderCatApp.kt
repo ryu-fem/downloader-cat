@@ -55,9 +55,7 @@ fun DownloaderCatApp(viewModel: AppViewModel = viewModel()) {
                                 Route.Format -> FormatScreen(viewModel)
                                 Route.Downloads -> DownloadsScreen(viewModel)
                                 Route.History -> HistoryScreen(viewModel)
-                                Route.Playlist -> PlaylistScreen(
-                                    onBack = { viewModel.route = Route.Home },
-                                )
+                                Route.Playlist -> PlaylistScreen(viewModel)
                                 Route.Settings -> SettingsScreen(viewModel)
                             }
                         }

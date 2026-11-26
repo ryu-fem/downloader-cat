@@ -97,8 +97,19 @@
 
     <!-- Playlist -->
     <string name="playlist_title">Playlist</string>
-    <string name="playlist_subtitle">Items from playlist links will appear here.</string>
+    <string name="playlist_subtitle">Paste a playlist link to load its items.</string>
+    <string name="playlist_subtitle_loaded">%1$d items.</string>
     <string name="playlist_empty">No playlist items yet.</string>
+    <string name="playlist_url_placeholder">Paste a playlist link</string>
+    <string name="playlist_fetch">Load playlist</string>
+    <string name="playlist_fetching">Loading playlist...</string>
+    <string name="playlist_paste_first">Paste a playlist link first.</string>
+    <string name="playlist_no_entries">Playlist has no entries.</string>
+    <string name="playlist_select_all">Select all</string>
+    <string name="playlist_clear_all">Clear all</string>
+    <string name="playlist_selected_summary">%1$d of %2$d selected</string>
+    <string name="playlist_missing_url">No direct URL for %1$s.</string>
+    <string name="playlist_queued">%1$d downloads queued.</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
@@ -126,7 +137,7 @@
     <string name="settings_engine_up_to_date">Up to date (%1$s)</string>
     <string name="settings_about">About</string>
     <string name="settings_version">Version</string>
-    <string name="settings_version_value">0.1.0 (Phase 4)</string>
+    <string name="settings_version_value">0.1.0 (Phase 5)</string>
     <string name="settings_check_updates">Check for updates</string>
     <string name="settings_github">Source code / GitHub</string>
     <string name="settings_up_to_date">You are on v0.1.0.</string>
@@ -139,6 +150,10 @@
     <string name="language_english">English</string>
     <string name="language_arabic">العربية</string>
     <string name="cookies_none">None</string>
+    <string name="cookies_chrome">Chrome</string>
+    <string name="cookies_firefox">Firefox</string>
+    <string name="cookies_chromium">Chromium</string>
+    <string name="cookies_edge">Edge</string>
 
     <!-- Quality labels -->
     <string name="quality_best">Best</string>

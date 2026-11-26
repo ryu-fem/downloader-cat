@@ -97,8 +97,19 @@
 
     <!-- Playlist -->
     <string name="playlist_title">قائمة التشغيل</string>
-    <string name="playlist_subtitle">ستظهر عناصر قائمة التشغيل هنا.</string>
+    <string name="playlist_subtitle">الصق رابط قائمة تشغيل لتحميل عناصرها.</string>
+    <string name="playlist_subtitle_loaded">%1$d عنصر.</string>
     <string name="playlist_empty">لا توجد عناصر في قائمة التشغيل بعد.</string>
+    <string name="playlist_url_placeholder">الصق رابط قائمة تشغيل</string>
+    <string name="playlist_fetch">تحميل قائمة التشغيل</string>
+    <string name="playlist_fetching">جارٍ تحميل قائمة التشغيل...</string>
+    <string name="playlist_paste_first">الصق رابط قائمة تشغيل أولًا.</string>
+    <string name="playlist_no_entries">قائمة التشغيل فارغة.</string>
+    <string name="playlist_select_all">تحديد الكل</string>
+    <string name="playlist_clear_all">إلغاء التحديد</string>
+    <string name="playlist_selected_summary">تم تحديد %1$d من %2$d</string>
+    <string name="playlist_missing_url">لا يوجد رابط مباشر لـ %1$s.</string>
+    <string name="playlist_queued">تمت إضافة %1$d تنزيل إلى قائمة الانتظار.</string>
 
     <!-- Settings -->
     <string name="settings_title">الإعدادات</string>
@@ -126,7 +137,7 @@
     <string name="settings_engine_up_to_date">محدّث (%1$s)</string>
     <string name="settings_about">حول</string>
     <string name="settings_version">الإصدار</string>
-    <string name="settings_version_value">0.1.0 (المرحلة 4)</string>
+    <string name="settings_version_value">0.1.0 (المرحلة 5)</string>
     <string name="settings_check_updates">التحقق من التحديثات</string>
     <string name="settings_github">الكود المصدري / GitHub</string>
     <string name="settings_up_to_date">أنت على الإصدار v0.1.0.</string>
@@ -139,6 +150,10 @@
     <string name="language_english">English</string>
     <string name="language_arabic">العربية</string>
     <string name="cookies_none">بدون</string>
+    <string name="cookies_chrome">كروم</string>
+    <string name="cookies_firefox">فايرفوكس</string>
+    <string name="cookies_chromium">كروميوم</string>
+    <string name="cookies_edge">إيدج</string>
 
     <!-- Quality labels -->
     <string name="quality_best">الأفضل</string>

@@ -13,6 +13,7 @@ import com.ryu.downloadercat.data.FormatKind
 import com.ryu.downloadercat.data.HistoryRepository
 import com.ryu.downloadercat.data.MediaFormat
 import com.ryu.downloadercat.data.MediaInfo
+import com.ryu.downloadercat.data.PlaylistInfo
 import com.ryu.downloadercat.data.SettingsRepository
 import com.ryu.downloadercat.download.DownloadRepository
 import com.ryu.downloadercat.download.DownloadTask
@@ -54,6 +55,13 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     var embedThumbnail by mutableStateOf(false)
     var downloadStatus by mutableStateOf<String?>(null)
 
+    var playlistUrl by mutableStateOf("")
+    var playlistInfo by mutableStateOf<PlaylistInfo?>(null)
+    var playlistFetching by mutableStateOf(false)
+    var playlistError by mutableStateOf<EngineError?>(null)
+    var playlistStatus by mutableStateOf<String?>(null)
+    var selectedPlaylistIds by mutableStateOf<Set<String>>(emptySet())
+
     var sharedUrl by mutableStateOf<String?>(null)
     var shareSheetVisible by mutableStateOf(false)
     var autoDownloadAfterShare by mutableStateOf(false)
@@ -70,6 +78,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     var concurrency by mutableStateOf(2)
     var speedLimit by mutableStateOf("")
     var proxy by mutableStateOf("")
+    var cookiesFromBrowser by mutableStateOf("none")
     var settingsStatus by mutableStateOf<String?>(null)
 
     val downloadTasks: StateFlow<List<DownloadTask>> = DownloadRepository.tasks
@@ -142,19 +151,32 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         homeStatus = null
         downloadStatus = null
         mediaInfo = null
+        playlistError = null
+        playlistStatus = null
         autoDownloadAfterShare = false
 
         viewModelScope.launch {
             try {
-                val info = DownloaderEngine.fetchInfo(appContext, trimmed)
-                val media = info.toMediaInfo(trimmed)
-                if (media.formats.isEmpty()) {
-                    fetchError = EngineError.NO_FORMATS
+                if (looksLikePlaylist(trimmed)) {
+                    loadPlaylist(trimmed, fromHome = true, allowEmpty = true)
                 } else {
-                    mediaInfo = media
-                    selectedFormatId = resolveFormatId(media.formats, defaultQuality)
-                    autoDownloadAfterShare = fromShare && skipPicker
-                    route = Route.Format
+                    val info = DownloaderEngine.fetchInfo(
+                        context = appContext,
+                        url = trimmed,
+                        proxy = proxy,
+                        cookiesFromBrowser = cookiesFromBrowser,
+                    )
+                    val media = info.toMediaInfo(trimmed)
+                    if (media.formats.isEmpty()) {
+                        if (!loadPlaylist(trimmed, fromHome = true, allowEmpty = false)) {
+                            fetchError = EngineError.NO_FORMATS
+                        }
+                    } else {
+                        mediaInfo = media
+                        selectedFormatId = resolveFormatId(media.formats, defaultQuality)
+                        autoDownloadAfterShare = fromShare && skipPicker
+                        route = Route.Format
+                    }
                 }
             } catch (e: CancellationException) {
                 throw e
@@ -171,6 +193,114 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
         }
+    }
+
+    fun fetchPlaylist() {
+        val trimmed = playlistUrl.trim()
+        if (trimmed.isEmpty()) {
+            playlistError = null
+            playlistStatus = appContext.getString(R.string.playlist_paste_first)
+            return
+        }
+        if (!trimmed.startsWith("http://") && !trimmed.startsWith("https://")) {
+            playlistError = null
+            playlistStatus = appContext.getString(R.string.home_http_only)
+            return
+        }
+        if (playlistFetching) return
+
+        playlistFetching = true
+        playlistError = null
+        playlistStatus = null
+
+        viewModelScope.launch {
+            try {
+                loadPlaylist(trimmed, fromHome = false, allowEmpty = true)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (throwable: Throwable) {
+                playlistError = DownloaderEngine.mapError(throwable)
+            } finally {
+                playlistFetching = false
+            }
+        }
+    }
+
+    fun togglePlaylistEntry(id: String) {
+        selectedPlaylistIds = if (id in selectedPlaylistIds) {
+            selectedPlaylistIds - id
+        } else {
+            selectedPlaylistIds + id
+        }
+    }
+
+    fun toggleSelectAllPlaylist() {
+        val all = playlistInfo?.entries?.map { it.id }?.toSet() ?: emptySet()
+        selectedPlaylistIds = if (all.isNotEmpty() && selectedPlaylistIds.containsAll(all)) {
+            emptySet()
+        } else {
+            all
+        }
+    }
+
+    fun downloadSelectedPlaylist() {
+        val playlist = playlistInfo ?: return
+        val selected = playlist.entries.filter { it.id in selectedPlaylistIds }
+        if (selected.isEmpty()) return
+
+        val missing = selected.firstOrNull { it.url.isNullOrBlank() }
+        if (missing != null) {
+            playlistStatus = appContext.getString(R.string.playlist_missing_url, missing.title)
+            return
+        }
+
+        playlistStatus = null
+        val quality = appContext.getString(R.string.quality_best)
+        try {
+            selected.forEach { entry ->
+                DownloadRepository.enqueueUrl(
+                    context = appContext,
+                    url = entry.url.orEmpty(),
+                    title = entry.title,
+                    site = playlist.site,
+                    qualityLabel = quality,
+                    subtitles = false,
+                    embedThumbnail = false,
+                )
+            }
+            playlistStatus = appContext.getString(R.string.playlist_queued, selected.size)
+            route = Route.Downloads
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Throwable) {
+            playlistStatus = appContext.getString(R.string.error_unknown)
+        }
+    }
+
+    private suspend fun loadPlaylist(
+        url: String,
+        fromHome: Boolean,
+        allowEmpty: Boolean,
+    ): Boolean {
+        val playlist = DownloaderEngine.fetchPlaylist(
+            context = appContext,
+            url = url,
+            proxy = proxy,
+            cookiesFromBrowser = cookiesFromBrowser,
+        )
+        if (playlist.entries.isEmpty() && !allowEmpty) return false
+
+        playlistInfo = playlist
+        playlistUrl = url
+        selectedPlaylistIds = emptySet()
+        playlistError = null
+        playlistStatus = if (playlist.entries.isEmpty()) {
+            appContext.getString(R.string.playlist_no_entries)
+        } else {
+            null
+        }
+        if (fromHome) route = Route.Playlist
+        return true
     }
 
     fun updateEngine() {
@@ -243,6 +373,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             concurrency = concurrency.coerceIn(1, 8),
             speedLimitMb = speedLimit.toIntOrNull() ?: 0,
             proxy = proxy,
+            cookiesFromBrowser = cookiesFromBrowser,
             themeMode = themeMode.name.lowercase(Locale.US),
         )
 
@@ -269,6 +400,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             concurrency = stored.concurrency.coerceIn(1, 8)
             speedLimit = stored.speedLimitMb.takeIf { it > 0 }?.toString().orEmpty()
             proxy = stored.proxy
+            cookiesFromBrowser = stored.cookiesFromBrowser
         } catch (e: CancellationException) {
             throw e
         } catch (_: Throwable) {
@@ -282,6 +414,15 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         return match
             .trimEnd('.', ',', '!', '?', ';', ':', ')', ']', '}', '>', '"', '\'', '،', '؛', '؟')
             .takeIf { it.isNotBlank() }
+    }
+
+    private fun looksLikePlaylist(url: String): Boolean {
+        val lower = url.lowercase(Locale.US)
+        return lower.contains("list=") ||
+            lower.contains("/playlist") ||
+            lower.contains("/sets/") ||
+            lower.contains("/showcase/") ||
+            lower.contains("/album/")
     }
 
     // Map a settings preset to the closest available format.

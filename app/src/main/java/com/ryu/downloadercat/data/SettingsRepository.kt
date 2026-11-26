@@ -29,6 +29,7 @@ class SettingsRepository(context: Context) {
                 concurrency = (preferences[KEY_CONCURRENCY] ?: 2).coerceIn(1, 8),
                 speedLimitMb = (preferences[KEY_SPEED_LIMIT] ?: 0).coerceAtLeast(0),
                 proxy = preferences[KEY_PROXY] ?: "",
+                cookiesFromBrowser = preferences[KEY_COOKIES] ?: "none",
                 themeMode = preferences[KEY_THEME_MODE] ?: "dark",
             )
         }
@@ -41,6 +42,7 @@ class SettingsRepository(context: Context) {
             preferences[KEY_CONCURRENCY] = settings.concurrency.coerceIn(1, 8)
             preferences[KEY_SPEED_LIMIT] = settings.speedLimitMb.coerceAtLeast(0)
             preferences[KEY_PROXY] = settings.proxy
+            preferences[KEY_COOKIES] = settings.cookiesFromBrowser
             preferences[KEY_THEME_MODE] = settings.themeMode
         }
     }
@@ -52,6 +54,7 @@ class SettingsRepository(context: Context) {
         val KEY_CONCURRENCY = intPreferencesKey("concurrency")
         val KEY_SPEED_LIMIT = intPreferencesKey("speed_limit_mb")
         val KEY_PROXY = stringPreferencesKey("proxy")
+        val KEY_COOKIES = stringPreferencesKey("cookies_from_browser")
         val KEY_THEME_MODE = stringPreferencesKey("theme_mode")
     }
 }

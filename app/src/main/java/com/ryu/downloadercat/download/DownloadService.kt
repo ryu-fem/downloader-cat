@@ -271,6 +271,10 @@ class DownloadService : Service() {
         if (settings.proxy.isNotBlank()) {
             request.addOption("--proxy", settings.proxy)
         }
+        val cookies = settings.cookiesFromBrowser.trim().lowercase(Locale.US)
+        if (cookies.isNotBlank() && cookies != "none") {
+            request.addOption("--cookies-from-browser", cookies)
+        }
 
         if (task.kind == FormatKind.AUDIO) {
             request.addOption("-f", audioSelector(task))

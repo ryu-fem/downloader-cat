@@ -7,5 +7,6 @@ data class AppSettings(
     val concurrency: Int = 2,
     val speedLimitMb: Int = 0,
     val proxy: String = "",
+    val cookiesFromBrowser: String = "none",
     val themeMode: String = "dark",
 )
